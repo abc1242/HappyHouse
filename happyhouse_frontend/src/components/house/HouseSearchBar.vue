@@ -21,6 +21,13 @@
       <b-form-select
         v-model="gugunCode"
         :options="guguns"
+        @change="dongList"
+      ></b-form-select>
+    </b-col>
+    <b-col class="sm-3">
+      <b-form-select
+        v-model="dongCode"
+        :options="dongs"
         @change="searchApt"
       ></b-form-select>
     </b-col>
@@ -51,7 +58,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns"]),
+    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -73,6 +80,9 @@ export default {
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
+    },
+    dongList() {
+      ///,,,
     },
     searchApt() {
       if (this.gugunCode) this.getHouseList(this.gugunCode);

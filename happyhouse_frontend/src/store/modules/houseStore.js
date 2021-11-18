@@ -5,6 +5,7 @@ const houseStore = {
   state: {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
+    dongs: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
   },
