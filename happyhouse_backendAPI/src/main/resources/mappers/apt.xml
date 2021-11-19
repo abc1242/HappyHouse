@@ -4,13 +4,13 @@
 
 <mapper namespace="com.ssafy.vue.model.mapper.HouseMapMapper">
 
-	<select id="getSido" resultType="sidoGugunCodeDto">
+	<select id="getSido" resultType="sidoGugunDongDto">
 		select left(sidoCode,2) sidoCode, sidoName
 		from sidocode
 		order by sidoCode
 	</select>
 	
-	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunDongDto">
 		select left(gugunCode,5) gugunCode, gugunName
 		from guguncode
 		where left(gugunCode,2) = #{sido}
