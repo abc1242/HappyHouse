@@ -23,14 +23,7 @@
       <b-form-select
         v-model="gugunCode"
         :options="guguns"
-        @change="dongList"
-      ></b-form-select>
-    </b-col>
-    <b-col class="sm-3">
-      <b-form-select
-        v-model="dongCode"
-        :options="dongs"
-        @change="searchHouse"
+        @change="searchCovid"
       ></b-form-select>
     </b-col>
   </b-row>
@@ -48,56 +41,40 @@ import { mapState, mapActions, mapMutations } from "vuex";
     키: 값
     memberStore: memberStore,
     houseStore: houseStore
-  }  
+  }
 */
-const houseStore = "houseStore";
+const covidStore = "covidStore";
 
 export default {
-  name: "HouseSearchBar",
+  name: "CovidSearchBar",
   data() {
     return {
       sidoCode: null,
       gugunCode: null,
-      dongCode: null,
+      sidoName: null,
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
+    ...mapState(covidStore, ["sidos", "guguns"]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
+    this.getCovidList();
+
+    //화면 열면서 코로나data 받아오기
   },
   methods: {
-    ...mapActions(houseStore, [
-      "getSido",
-      "getGugun",
-      "getDong",
-      "getHouseList",
-    ]),
-    ...mapMutations(houseStore, [
-      "CLEAR_SIDO_LIST",
-      "CLEAR_GUGUN_LIST",
-      "CLEAR_DONG_LIST",
-    ]),
+    ...mapActions(covidStore, ["getSido", "getGugun", "getCovidList"]),
+    ...mapMutations(covidStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
 
     gugunList() {
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
-      this.CLEAR_DONG_LIST();
-      this.dongCode = null;
+
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
-    dongList() {
-      //console.log(this.gugunCode);
-
-      this.CLEAR_DONG_LIST();
-      this.dongCode = null;
-      if (this.gugunCode) this.getDong(this.gugunCode);
-    },
-    searchHouse() {
-      if (this.dongCode) this.getHouseList(this.dongCode);
-    },
+    searchCovid() {},
   },
 };
 </script>
