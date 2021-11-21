@@ -36,4 +36,13 @@
 		order by aptName
 	</select>
 	
+	<select id="getHouseDeal" parameterType="map" resultType="DealInfoDto">
+		select hi.aptName, hi.dongCode, hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area
+		from houseinfo as hi left join housedeal as hd
+		on hi.aptCode = hd.aptCode
+		where hi.dongCode = #{dongcode} and
+		hi.aptName = #{aptname}
+		order by hi.aptCode desc
+	</select>
+	
 </mapper>

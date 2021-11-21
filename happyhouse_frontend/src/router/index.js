@@ -15,6 +15,8 @@ import BoardUpdate from "@/components/board/BoardUpdate.vue";
 
 import House from "@/views/House.vue";
 
+import Deal from "@/views/Deal.vue";
+
 import store from "@/store/index.js";
 
 Vue.use(VueRouter);
@@ -102,6 +104,11 @@ const routes = [
     path: "/house",
     name: "House",
     component: House,
+  },
+  {
+    path: "/deal/:house",
+    name: "Deal",
+    component: Deal,
   },
   {
     path: "*",

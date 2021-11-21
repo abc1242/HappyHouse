@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.vue.model.SidoGugunDongDto;
 import com.ssafy.vue.model.service.HouseMapService;
+import com.ssafy.vue.model.DealInfoDto;
 import com.ssafy.vue.model.HouseInfoDto;
 
 import io.swagger.annotations.Api;
@@ -58,4 +59,10 @@ public class HouseMapController {
 		return new ResponseEntity<List<HouseInfoDto>>(haHouseMapService.getAptInDong(dong), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "아파트 거래 정보", notes = "해당되는 거래정보를 반환한다.", response = List.class)
+	@GetMapping("/deal")
+	public ResponseEntity<List<DealInfoDto>> deal(@RequestParam("dong") String dong, @RequestParam("apt") String apt) throws Exception {
+		logger.info("deal - 호출");
+		return new ResponseEntity<List<DealInfoDto>>(haHouseMapService.getHouseDeal(dong, apt), HttpStatus.OK);
+	}
 }

@@ -14,10 +14,6 @@ export default {
 
     computed: {
         ...mapState(houseStore, ["houses"]),
-
-        // house() {
-        //   return this.$store.state.house;
-        // },
     },
 
     // vuex houses 변수가 변하면 맵 업데이트!
@@ -55,32 +51,6 @@ export default {
             };
             this.map = new kakao.maps.Map(container, options);
         },
-        // displayMarker(markerPositions) {
-        //     if (this.markers.length > 0) {
-        //         this.markers.forEach((marker) => marker.setMap(null));
-        //     }
-
-        //     const positions = markerPositions.map(
-        //         (position) => new kakao.maps.LatLng(...position)
-        //     );
-
-        //     if (positions.length > 0) {
-        //         this.markers = positions.map(
-        //             (position) =>
-        //                 new kakao.maps.Marker({
-        //                     map: this.map,
-        //                     position,
-        //                 })
-        //         );
-
-        //         const bounds = positions.reduce(
-        //             (bounds, latlng) => bounds.extend(latlng),
-        //             new kakao.maps.LatLngBounds()
-        //         );
-
-        //         this.map.setBounds(bounds);
-        //     }
-        // },
         addMarker(position, idx) {
             var imageSrc =
                     "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -105,6 +75,49 @@ export default {
 
             return marker;
         },
+
+        displayInfowindow(marker, title, house) {
+            var content = `
+                    <div class="overlaybox">
+                        <div class="boxtitle">${title}</div>
+                        <div class="close" onclick="closeOverlay()" title="닫기"></div>
+                        <ul>
+                            <li class="up">
+                                <span class="title">건축년도</span>
+                                <span class="count">${house.buildYear}</span>
+                            </li>
+                            <li>
+                                <span class="title></span>
+                                <span class="count">${house.sidoName} ${house.gugunName} ${house.dongName} ${house.jibun}</span>
+                            </li>
+                            <li>
+                                <span class="title">최신거래금액</span>
+                                <span class="count">${house.recentPrice}</span>
+                            </li>
+                        </ul>
+                    </div>
+                `;
+
+            // var closeBtn = document.createElement("button");
+            // closeBtn.src = "@/assets/ssafy_logo.png";
+            // closeBtn.onclick = function () {
+            //     customOverlay.setMap(null);
+            // };
+            // content.appendChild(closeBtn);
+
+            var position = new kakao.maps.LatLng(
+                marker.getPosition().getLat() + 0.00033,
+                marker.getPosition().getLng() - 0.00003
+            );
+            var customOverlay = new kakao.maps.CustomOverlay({
+                position: position,
+                content: content,
+                xAnchor: 0.3,
+                yAnchor: 0.91,
+            });
+            customOverlay.setMap(this.map);
+        },
+
         updateHousesMap() {
             // if (this.infowindow && this.infowindow.getMap()) {
             //     //이미 생성한 인포윈도우가 있기 때문에 지도 중심좌표를 인포윈도우 좌표로 이동시킨다.
@@ -115,6 +128,7 @@ export default {
                 return;
             }
 
+            //var fragment = document.createDocumentFragment();
             var bounds = new kakao.maps.LatLngBounds();
 
             // 지도에 표시되고 있는 마커를 제거합니다
@@ -125,7 +139,7 @@ export default {
                     this.houses[i].lat,
                     this.houses[i].lng
                 );
-                this.addMarker(housePosition, i);
+                var marker = this.addMarker(housePosition, i);
 
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
@@ -134,32 +148,39 @@ export default {
                 // 마커와 검색결과 항목에 mouseover 했을때
                 // 해당 장소에 인포윈도우에 장소명을 표시합니다
                 // mouseout 했을 때는 인포윈도우를 닫습니다
-                // (function (marker, title, code, place) {
-                //     kakao.maps.event.addListener(marker, "click", function () {
-                //         displayInfowindow(marker, title, place);
-                //         console.log(title + " " + code);
-                //     });
+                (function (marker, map, title, code, place, displayInfowindow) {
+                    kakao.maps.event.addListener(marker, "click", function () {
+                        displayInfowindow(marker, title, place);
+                        console.log(title + " " + code);
+                    });
 
-                //     kakao.maps.event.addListener(map, "click", function () {
-                //         console.log(customOverlay);
-                //         customOverlay.setMap(null);
-                //     });
+                    kakao.maps.event.addListener(map, "click", function () {
+                        //console.log("asdf");
+                        // console.log(customOverlay);
+                        // customOverlay.setMap(null);
+                    });
+                })(
+                    marker,
+                    this.map,
+                    this.houses[i].aptName,
+                    this.houses[i].aptCode,
+                    this.houses[i],
+                    this.displayInfowindow
+                );
 
-                //     itemEl.onmouseover = function () {
-                //         displayInfowindow(marker, title);
-                //     };
-
-                //     itemEl.onmouseout = function () {
-                //         customOverlay.setMap(null);
-                //     };
-                // })(marker, places[i].aptName, places[i].aptCode, places[i]);
-
-                //fragment.appendChild(itemEl);
+                if (i == 0) {
+                    this.displayInfowindow(
+                        marker,
+                        this.houses[i].aptName,
+                        this.houses[i]
+                    );
+                }
             }
 
             // 맵 위치를 해당 범위만큼 위치로 변경
             this.map.setBounds(bounds);
         },
+
         removeMarker() {
             for (var i = 0; i < this.markers.length; i++) {
                 this.markers[i].setMap(null);
@@ -170,9 +191,4 @@ export default {
 };
 </script>
 
-<style scoped>
-#map {
-    width: 400px;
-    height: 400px;
-}
-</style>
+<style></style>
