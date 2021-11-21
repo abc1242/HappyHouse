@@ -6,5 +6,5 @@ public interface MemberService {
 
 	public MemberDto login(MemberDto memberDto) throws Exception;
 	public MemberDto userInfo(String userid) throws Exception;
-	
+	void registerMember(MemberDto memberDto) throws Exception;
 }

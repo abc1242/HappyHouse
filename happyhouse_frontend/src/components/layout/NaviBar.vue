@@ -35,6 +35,12 @@
                         ></b-nav-item
                     >
                     <b-nav-item href="#"
+                        ><router-link :to="{ name: 'Covid' }" class="link"
+                            ><b-icon icon="journal" font-scale="1"></b-icon>
+                            코로나예방접종센터</router-link
+                        ></b-nav-item
+                    >
+                    <b-nav-item href="#"
                         ><router-link :to="{ name: 'SignIn' }" class="link"
                             ><b-icon icon="key"></b-icon> 로그인</router-link
                         ></b-nav-item

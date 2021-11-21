@@ -13,6 +13,8 @@ import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardView from "@/components/board/BoardView.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
 
+import Covid from "@/views/Covid.vue";
+
 import House from "@/views/House.vue";
 
 import Deal from "@/views/Deal.vue";
@@ -113,6 +115,11 @@ const routes = [
   {
     path: "*",
     redirect: "/",
+  },
+  {
+    path: "/covid",
+    name: "Covid",
+    component: Covid,
   },
 ];
 

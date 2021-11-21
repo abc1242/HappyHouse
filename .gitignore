@@ -1,3 +1,4 @@
 /.metadata/
 
 node_modules
+/happyhouse_backendAPI/*.log
