@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="getHouseDeal" parameterType="map" resultType="DealInfoDto">
-		select hi.aptName, hi.dongCode, hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area
+		select hi.aptCode, hi.aptName, hi.dongCode, hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area, hd.floor
 		from houseinfo as hi left join housedeal as hd
 		on hi.aptCode = hd.aptCode
 		where hi.dongCode = #{dongcode} and

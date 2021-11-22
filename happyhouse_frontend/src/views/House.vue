@@ -16,15 +16,11 @@
         <house-map />
       </b-col>
     </b-row>
-    <b-row>
-      <house-detail />
-    </b-row>
   </b-container>
 </template>
 <script>
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseList from "@/components/house/HouseList.vue";
-import HouseDetail from "@/components/house/HouseDetail.vue";
 import HouseMap from "@/components/house/HouseMap.vue";
 
 export default {
@@ -33,7 +29,6 @@ export default {
     HouseSearchBar,
     HouseList,
     HouseMap,
-    HouseDetail,
   },
 };
 </script>
