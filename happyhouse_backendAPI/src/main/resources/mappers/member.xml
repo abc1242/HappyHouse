@@ -21,4 +21,9 @@
 		values (#{userid}, #{username}, #{userpwd}, #{email}, now())
 	</insert>
 	
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from member
+		where userid = #{userid}
+	</delete>
 </mapper>

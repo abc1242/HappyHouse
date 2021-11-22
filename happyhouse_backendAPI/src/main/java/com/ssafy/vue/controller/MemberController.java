@@ -42,11 +42,7 @@ public class MemberController {
 
 	@PostMapping("/register")
 	public String register(@RequestBody  MemberDto memberDto) {
-		System.out.println(memberDto.getUserid());
-		System.out.println(memberDto.getEmail());
-		System.out.println(memberDto.getUsername());
-		System.out.println(memberDto.getUserpwd());
-
+	
 		try {
 			memberService.registerMember(memberDto);
 		} catch (Exception e) {
@@ -55,7 +51,16 @@ public class MemberController {
 		}
 		return "";
 	}
-	
+	@PostMapping("/leave")
+	public String leave(@RequestBody  MemberDto memberDto) {
+		try {
+			memberService.deleteMember(memberDto.getUserid());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
 	
 	
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
