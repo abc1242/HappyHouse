@@ -6,10 +6,21 @@
 
 <script>
 import LineChart from "@/api/LineChart.js";
+import { mapState } from "vuex";
+
+const dealStore = "dealStore";
 
 export default {
     components: {
         LineChart,
+    },
+    computed: {
+        ...mapState(dealStore, ["deals"]),
+    },
+    watch: {
+        deals() {
+            //this.fillData();
+        },
     },
     data() {
         return {
