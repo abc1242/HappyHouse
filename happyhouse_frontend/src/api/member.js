@@ -17,6 +17,10 @@ async function signUp(user, success, fail) {
     .then(success)
     .catch(fail);
 }
+
+async function signOut(user, success, fail) {
+  await api.post(`/user/leave`, JSON.stringify(user)).then(success).catch(fail);
+}
 // function logout(success, fail)
 
-export { login, findById, signUp };
+export { login, findById, signUp, signOut };

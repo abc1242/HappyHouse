@@ -25,7 +25,7 @@
     <b-row class="mb-1">
       <b-col>
         <b-card
-          :header-html="`<h3>${article.articleno}.
+          :header-html="`<h3>${article.noticeno}.
           ${article.subject} [${article.hit}]</h3><div><h6>${article.userid}</div><div>${article.regtime}</h6></div>`"
           class="mb-2"
           border-variant="dark"
@@ -37,28 +37,19 @@
         </b-card>
       </b-col>
     </b-row>
-    <div class="content-detail-comment">
-      <comment-list :contentId="contentId" />
-    </div>
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
-import { getArticle, deleteArticle } from "@/api/board";
-import CommentList from "@/components/comment/CommentList";
-import data from "@/components/comment/dat.js";
+import { getArticle, deleteArticle } from "@/api/notice";
 
 export default {
-  components: {
-    CommentList,
-  },
   data() {
     return {
       article: {},
     };
   },
-
   computed: {
     message() {
       if (this.article.content)
@@ -84,44 +75,24 @@ export default {
   },
   methods: {
     listArticle() {
-      this.$router.push({ name: "BoardList" });
+      this.$router.push({ name: "NoticeList" });
     },
     moveModifyArticle() {
       this.$router.replace({
-        name: "BoardUpdate",
-        params: { articleno: this.article.articleno },
+        name: "NoticeUpdate",
+        params: { articleno: this.article.noticeno },
       });
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
     },
     removeArticle() {
       if (confirm("정말로 삭제?")) {
-        deleteArticle(this.article.articleno, () => {
-          this.$router.push({ name: "BoardList" });
+        deleteArticle(this.article.noticeno, () => {
+          this.$router.push({ name: "NoticeList" });
         });
       }
-    },
-    deleteData() {
-      const content_index = data.Content.findIndex(
-        (item) => item.content_id === this.contentId
-      );
-      data.Content.splice(content_index, 1);
-      this.$router.push({
-        path: "/board/free",
-      });
-    },
-    updateData() {
-      this.$router.push({
-        path: `/board/free/create/${this.contentId}`,
-      });
     },
   },
 };
 </script>
 
-<style>
-.content-detail-comment {
-  border: 1px solid black;
-  margin-top: 1rem;
-  padding: 2rem;
-}
-</style>
+<style></style>

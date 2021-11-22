@@ -28,11 +28,36 @@
             ></b-nav-item
           >
           <b-nav-item href="#"
+<<<<<<< HEAD
             ><router-link :to="{ name: 'Board' }" class="link"
+=======
+            ><router-link :to="{ name: 'Notice' }" class="link"
+>>>>>>> 17c90fafa63e7ae1c4150080d8f061b29173130c
               ><b-icon icon="journal" font-scale="1"></b-icon>
               공지사항</router-link
             ></b-nav-item
           >
+          <b-nav-item href="#"
+<<<<<<< HEAD
+            ><router-link :to="{ name: 'Covid' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              코로나예방접종센터</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'SignIn' }" class="link"
+              ><b-icon icon="key"></b-icon> 로그인</router-link
+            ></b-nav-item
+          >
+        </b-navbar-nav>
+
+=======
+            ><router-link :to="{ name: 'Board' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              게시판</router-link
+            ></b-nav-item
+          >
+
           <b-nav-item href="#"
             ><router-link :to="{ name: 'Covid' }" class="link"
               ><b-icon icon="journal" font-scale="1"></b-icon>
@@ -46,6 +71,7 @@
           >
         </b-navbar-nav>
 
+>>>>>>> 17c90fafa63e7ae1c4150080d8f061b29173130c
         <b-navbar-nav class="ml-auto" v-if="userInfo">
           <b-nav-item class="align-self-center"
             ><b-avatar
@@ -99,19 +125,19 @@ import { mapState, mapMutations } from "vuex";
 const memberStore = "memberStore";
 
 export default {
-    name: "NaviBar",
-    computed: {
-        ...mapState(memberStore, ["isLogin", "userInfo"]),
+  name: "NaviBar",
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+  },
+  methods: {
+    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    onClickLogout() {
+      this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
+      if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
-    methods: {
-        ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-        onClickLogout() {
-            this.SET_IS_LOGIN(false);
-            this.SET_USER_INFO(null);
-            sessionStorage.removeItem("access-token");
-            if (this.$route.path != "/") this.$router.push({ name: "Home" });
-        },
-    },
+  },
 };
 </script>
 

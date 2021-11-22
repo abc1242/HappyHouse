@@ -107,6 +107,7 @@ export default {
       this.user.email = this.emailid + "@" + this.emailcom;
       console.log(this.user);
       signUp(this.user);
+      this.$router.push({ name: "SignIn" });
     },
   },
 };
