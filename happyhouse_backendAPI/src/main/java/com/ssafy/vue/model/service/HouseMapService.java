@@ -16,4 +16,5 @@ public interface HouseMapService {
 	List<DealInfoDto> getHouseDeal(String dong, String apt) throws Exception;
 	void setFavArea(String id, String dong) throws Exception;
 	List<FavAreaDto> getFavArea(String id) throws Exception;
+	void delFavArea(String id, String dong) throws Exception;
 }

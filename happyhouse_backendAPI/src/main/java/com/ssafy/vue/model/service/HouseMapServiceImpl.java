@@ -59,4 +59,12 @@ public class HouseMapServiceImpl implements HouseMapService {
 	public List<FavAreaDto> getFavArea(String id) throws Exception{
 		return sqlSession.getMapper(HouseMapMapper.class).getFavArea(id);
 	}
+	
+	@Override
+	public void delFavArea(String id, String dong) throws Exception{
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userid", id);
+		map.put("dongcode", dong);
+		sqlSession.getMapper(HouseMapMapper.class).delFavArea(map);
+	}
 }

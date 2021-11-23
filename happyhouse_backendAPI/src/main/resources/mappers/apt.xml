@@ -62,4 +62,9 @@
 		  where f.userid = #{userid};
 	</select>
 	
+	<delete id="delFavArea" parameterType="map">
+		delete from favoritearea
+		where userid = #{userid} and
+		dongCode = #{dongcode}
+	</delete>
 </mapper>

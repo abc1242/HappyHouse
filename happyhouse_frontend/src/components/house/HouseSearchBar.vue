@@ -1,17 +1,19 @@
 <template>
-  <b-container>
-    <b-row class="mt-3">
-      <b-col v-if="this.houses.length > 0"
-        ><b-alert show>
-          {{ this.houses[0].sidoName }}
-          {{ this.houses[0].gugunName }}
-          {{ this.houses[0].dongName }} 주택 목록</b-alert
-        ></b-col
-      >
-      <b-col v-else><b-alert show>주택 목록</b-alert></b-col>
-    </b-row>
-    <b-row class="mt-4 mb-4 text-center">
-      <!-- <b-col class="sm-3">
+    <b-container>
+        <b-row class="mt-3">
+            <b-col v-if="this.houses.length > 0"
+                ><b-alert show>
+                    {{ this.houses[0].sidoName }}
+                    {{ this.houses[0].gugunName }}
+                    {{ this.houses[0].dongName }} 주택 목록</b-alert
+                ></b-col
+            >
+            <b-col v-else
+                ><b-alert show>지역(시,구,동)을 선택하세요</b-alert></b-col
+            >
+        </b-row>
+        <b-row class="mt-4 mb-4 text-center">
+            <!-- <b-col class="sm-3">
             <b-form-input
                 v-model.trim="dongCode"
                 placeholder="동코드 입력...(예 : 11110)"
@@ -23,34 +25,34 @@
                 >검색</b-button
             >
         </b-col> -->
-      <b-col cols="4" class="sm-1">
-        <b-form-select
-          v-model="sidoCode"
-          :options="sidos"
-          @change="gugunList"
-        ></b-form-select>
-      </b-col>
-      <b-col cols="3" class="sm-1">
-        <b-form-select
-          v-model="gugunCode"
-          :options="guguns"
-          @change="dongList"
-        ></b-form-select>
-      </b-col>
-      <b-col cols="3" class="sm-1">
-        <b-form-select
-          v-model="dongCode"
-          :options="dongs"
-          @change="searchHouse"
-        ></b-form-select>
-      </b-col>
-      <b-col cols="1" class="sm-1">
-        <p class="h3 mb-2">
-          <b-icon icon="star" @click="setFavorite"></b-icon>
-        </p>
-      </b-col>
-    </b-row>
-  </b-container>
+            <b-col cols="4" class="sm-1">
+                <b-form-select
+                    v-model="sidoCode"
+                    :options="sidos"
+                    @change="gugunList"
+                ></b-form-select>
+            </b-col>
+            <b-col cols="3" class="sm-1">
+                <b-form-select
+                    v-model="gugunCode"
+                    :options="guguns"
+                    @change="dongList"
+                ></b-form-select>
+            </b-col>
+            <b-col cols="3" class="sm-1">
+                <b-form-select
+                    v-model="dongCode"
+                    :options="dongs"
+                    @change="searchHouse"
+                ></b-form-select>
+            </b-col>
+            <b-col cols="1" class="sm-1">
+                <p class="h3 mb-2">
+                    <b-icon icon="star" @click="setFavorite"></b-icon>
+                </p>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -87,6 +89,9 @@ export default {
         this.CLEAR_HOUSES_LIST();
         this.CLEAR_SIDO_LIST();
         this.getSido();
+
+        let dongCode = this.$route.params.dongCode;
+        if (dongCode) this.getHouseList(dongCode);
     },
     methods: {
         ...mapActions(houseStore, [

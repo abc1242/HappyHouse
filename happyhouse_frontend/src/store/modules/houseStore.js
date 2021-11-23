@@ -5,7 +5,10 @@ import {
   houseList,
   favArea,
   favList,
+  deleteFav,
 } from "@/api/house.js";
+
+import router from "../../router";
 
 const houseStore = {
   namespaced: true,
@@ -57,7 +60,7 @@ const houseStore = {
       state.house = house;
     },
     SET_FAV: (state, res) => {
-      console.log(state.house);
+      console.log(state.favs);
       console.log(res);
     },
     SET_FAV_LIST: (state, favs) => {
@@ -140,11 +143,24 @@ const houseStore = {
     },
     // 즐겨찾기 리스트정보 반환
     getFavList: ({ commit }, userId) => {
-      console.log(userId);
       favList(
         userId,
         ({ data }) => {
           commit("SET_FAV_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    delFav: (commit, favData) => {
+      console.log(commit);
+      deleteFav(
+        favData.id,
+        favData.dong,
+        () => {
+          alert("선택한 관심지역 삭제 되었습니다");
+          router.go(); // 새로고침
         },
         (error) => {
           console.log(error);

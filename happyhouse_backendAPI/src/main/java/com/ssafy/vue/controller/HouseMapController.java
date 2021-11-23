@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,5 +87,15 @@ public class HouseMapController {
 	public ResponseEntity<List<FavAreaDto>> fav(@PathVariable("id") @ApiParam(value = "회원아이디", required = true) String id) throws Exception {
 		logger.info("get fav - 호출");
 		return new ResponseEntity<List<FavAreaDto>>(haHouseMapService.getFavArea(id), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "관심지역 정보", notes = "해당되는 관심지역을 삭제한다.", response = String.class)
+	@DeleteMapping("/fav/{id}/{dong}")
+	public String delFavArea(@PathVariable("id") @ApiParam(value = "회원아이디", required = true) String id,
+			@PathVariable("dong") @ApiParam(value = "동 코드", required = true) String dong) throws Exception {
+		logger.info("del fav - 호출");
+		logger.info("id : " + id + " dong : " + dong);
+		haHouseMapService.delFavArea(id, dong);
+		return "";
 	}
 }

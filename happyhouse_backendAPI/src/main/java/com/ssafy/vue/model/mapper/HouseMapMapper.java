@@ -21,4 +21,5 @@ public interface HouseMapMapper {
 	List<DealInfoDto> getHouseDeal(HashMap<String, String> map) throws SQLException;
 	int setFavArea(HashMap<String, String> map) throws SQLException;
 	List<FavAreaDto> getFavArea(String id) throws SQLException;
+	int delFavArea(HashMap<String, String> map) throws SQLException;
 }
