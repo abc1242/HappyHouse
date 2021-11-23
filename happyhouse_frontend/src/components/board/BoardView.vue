@@ -37,9 +37,15 @@
         </b-card>
       </b-col>
     </b-row>
-    <div class="content-detail-comment">
-      <comment-list :contentId="contentId" />
-    </div>
+    <b-row>
+      <comment-list
+        :articleno="this.article.articleno"
+        :commentlist="comments"
+      ></comment-list>
+    </b-row>
+    <b-row>
+      <comment-create :articleno="this.article.articleno"></comment-create>
+    </b-row>
   </b-container>
 </template>
 
@@ -47,18 +53,21 @@
 // import moment from "moment";
 import { getArticle, deleteArticle } from "@/api/board";
 import CommentList from "@/components/comment/CommentList";
-import data from "@/components/comment/dat.js";
+import CommentCreate from "@/components/comment/CommentCreate";
 
 export default {
-  components: {
-    CommentList,
-  },
   data() {
     return {
       article: {},
+      comments: [],
     };
   },
 
+  components: {
+    CommentList,
+
+    CommentCreate,
+  },
   computed: {
     message() {
       if (this.article.content)
@@ -75,7 +84,8 @@ export default {
     getArticle(
       this.$route.params.articleno,
       (response) => {
-        this.article = response.data;
+        this.article = response.data[0];
+        this.comments = response.data[1];
       },
       (error) => {
         console.log("삭제시 에러발생!!", error);
@@ -99,20 +109,6 @@ export default {
           this.$router.push({ name: "BoardList" });
         });
       }
-    },
-    deleteData() {
-      const content_index = data.Content.findIndex(
-        (item) => item.content_id === this.contentId
-      );
-      data.Content.splice(content_index, 1);
-      this.$router.push({
-        path: "/board/free",
-      });
-    },
-    updateData() {
-      this.$router.push({
-        path: `/board/free/create/${this.contentId}`,
-      });
     },
   },
 };

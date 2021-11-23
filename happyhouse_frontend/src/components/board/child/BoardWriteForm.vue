@@ -61,7 +61,8 @@
 
 <script>
 import { writeArticle, getArticle, modifyArticle } from "@/api/board";
-
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "BoardWriteForm",
   data() {
@@ -78,11 +79,15 @@ export default {
   props: {
     type: { type: String },
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   created() {
     if (this.type === "modify") {
       getArticle(
         this.$route.params.articleno,
         ({ data }) => {
+          console.log(data);
           // this.article.articleno = data.article.articleno;
           // this.article.userid = data.article.userid;
           // this.article.subject = data.article.subject;
@@ -93,6 +98,9 @@ export default {
           console.log(error);
         }
       );
+      this.isUserid = true;
+    } else {
+      this.article.userid = this.userInfo.userid;
       this.isUserid = true;
     }
   },

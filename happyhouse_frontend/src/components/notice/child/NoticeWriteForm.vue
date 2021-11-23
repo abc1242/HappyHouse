@@ -62,6 +62,9 @@
 <script>
 import { writeArticle, getArticle, modifyArticle } from "@/api/notice";
 
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "NoticeWriteForm",
   data() {
@@ -78,6 +81,9 @@ export default {
   props: {
     type: { type: String },
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   created() {
     if (this.type === "modify") {
       getArticle(
@@ -93,6 +99,9 @@ export default {
           console.log(error);
         }
       );
+      this.isUserid = true;
+    } else {
+      this.article.userid = this.userInfo.userid;
       this.isUserid = true;
     }
   },

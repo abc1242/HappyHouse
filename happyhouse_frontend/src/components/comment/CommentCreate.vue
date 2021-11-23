@@ -1,80 +1,61 @@
 <template>
   <div class="comment-create">
-    <b-input-group :prepend="name" class="mt-3">
+    <b-input-group :prepend="comment.userid" class="mt-3" size="">
       <b-form-textarea
         id="textarea"
-        v-model="context"
-        :placeholder="
-          isSubComment ? '덧글에 덧글을 달아주세요~!' : '코멘트를 달아주세요~!'
-        "
+        v-model="comment.content"
+        :placeholder="'댓글 입력'"
         rows="3"
         max-rows="6"
       ></b-form-textarea>
+
       <b-input-group-append>
-        <b-button
-          variant="info"
-          @click="isSubComment ? createSubComment() : createComment()"
-          >작성하기</b-button
+        <b-button size="" variant="info" @click="commentRegister"
+          >등록</b-button
         >
       </b-input-group-append>
     </b-input-group>
   </div>
 </template>
 <script>
-import data from "@/components/comment/dat.js";
+import { mapState } from "vuex";
+import { writeComment } from "@/api/comment";
+const memberStore = "memberStore";
 
 export default {
   name: "CommentCreate",
   props: {
-    contentId: Number,
-    reloadComments: Function,
-    reloadSubComments: Function,
-    subCommentToggle: Function,
-    isSubComment: Boolean,
-    commentId: Number,
+    articleno: Number,
   },
   data() {
     return {
-      name: "르라나",
-      context: "",
+      comment: {
+        articleno: 0,
+        userid: "",
+        content: "",
+      },
     };
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  created() {
+    this.comment.userid = this.userInfo.userid;
+    this.comment.articleno = this.$route.params.articleno;
+  },
   methods: {
-    createComment() {
-      const comment_id = data.Comment[data.Comment.length - 1].comment_id + 1;
-      data.Comment.push({
-        comment_id: comment_id,
-        user_id: 1,
-        content_id: this.contentId,
-        context: this.context,
-        created_at: "2019-04-19 14:11:11",
-        updated_at: null,
-      });
-      this.reloadComments();
-      this.subCommentToggle();
-      this.context = "";
-    },
-    createSubComment() {
-      const subcomment_id =
-        data.SubComment[data.SubComment.length - 1].subcomment_id + 1;
-      data.SubComment.push({
-        subcomment_id: subcomment_id,
-        comment_id: this.commentId,
-        user_id: 1,
-        context: this.context,
-        created_at: "2019-04-19 16:22:11",
-        updated_at: null,
-      });
-      this.reloadSubComments();
-      this.subCommentToggle();
-      this.context = "";
+    commentRegister() {
+      console.log(this.comment);
+      writeComment(this.comment);
+      this.$router.go();
     },
   },
 };
 </script>
-<style scoped>
+<style>
 .comment-create {
   display: flex;
-  margin-bottom: 1em;
+  width: 100%;
+  margin-bottom: 3em;
 }
 </style>

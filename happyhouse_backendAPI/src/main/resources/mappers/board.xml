@@ -9,6 +9,11 @@
 		values (#{userid}, #{subject}, #{content}, 0, now())
 	</insert>
 	
+	<insert id="writeComment" parameterType="commentDto">
+		insert into comment (articleno, userid, content,regtime)
+		values (#{articleno}, #{userid}, #{content},now())
+	</insert>
+	
 	<select id="listArticle" parameterType="map" resultType="boardDto">
 		select articleno, userid, subject, content, hit,
 				case when date_format(regtime, '%Y%m%d') = date_format(now(), '%Y%m%d')
@@ -47,6 +52,11 @@
 		where articleno = #{articleno}
 	</select>
 	
+	<select id="getComment" parameterType="int" resultType="commentDto">
+		select commentno,articleno, userid, content, regtime
+		from comment
+		where articleno = #{articleno}
+	</select>
 	<update id="updateHit" parameterType="int">
 		update board
 		set hit = hit + 1
@@ -67,6 +77,11 @@
 	<delete id="deleteArticle" parameterType="int">
 		delete from board
 		where articleno = #{articleno}
+	</delete>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comment
+		where commentno = #{commentno}
 	</delete>
 
 </mapper>
