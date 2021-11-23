@@ -98,4 +98,11 @@ public class HouseMapController {
 		haHouseMapService.delFavArea(id, dong);
 		return "";
 	}
+	
+	@ApiOperation(value = "관심지역 정보", notes = "가장 많이등록한 관심지역을 반환한다.", response = List.class)
+	@GetMapping("/topfav")
+	public ResponseEntity<List<FavAreaDto>> topfav() throws Exception {
+		logger.info("get topfav - 호출");
+		return new ResponseEntity<List<FavAreaDto>>(haHouseMapService.getTopFavArea(), HttpStatus.OK);
+	}
 }

@@ -67,4 +67,9 @@ public class HouseMapServiceImpl implements HouseMapService {
 		map.put("dongcode", dong);
 		sqlSession.getMapper(HouseMapMapper.class).delFavArea(map);
 	}
+	
+	@Override
+	public List<FavAreaDto> getTopFavArea() throws Exception{
+		return sqlSession.getMapper(HouseMapMapper.class).getTopFavArea();
+	}
 }

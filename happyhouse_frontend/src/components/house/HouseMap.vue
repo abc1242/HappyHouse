@@ -102,12 +102,7 @@ export default {
                     </div>
                 `;
 
-            // var closeBtn = document.createElement("button");
-            // closeBtn.src = "@/assets/ssafy_logo.png";
-            // closeBtn.onclick = function () {
-            //     customOverlay.setMap(null);
-            // };
-            // content.appendChild(closeBtn);
+            console.log(house);
 
             var position = new kakao.maps.LatLng(
                 marker.getPosition().getLat() + 0.00033,
@@ -119,7 +114,37 @@ export default {
                 xAnchor: 0.3,
                 yAnchor: 0.91,
             });
+
             customOverlay.setMap(this.map);
+
+            // console.log(house);
+
+            // var contentEl = document.createElement("div");
+            // contentEl.className = "overlaybox";
+
+            // var titleEl = document.createElement("div");
+            // titleEl.className = "boxtitle";
+            // titleEl.appendChild(document.createTextNode(title));
+
+            // contentEl.appendChild(titleEl);
+
+            // var buttonContainer = document.createElement("div");
+            // buttonContainer.className = "popup-buttons";
+
+            // var closeBtn = document.createElement("button");
+            // closeBtn.className = "popup-button";
+            // closeBtn.appendChild(document.createTextNode("취소"));
+            // closeBtn.onclick = function () {
+            //     customOverlay.setMap(null);
+            // };
+
+            // buttonContainer.appendChild(closeBtn);
+
+            // contentEl.appendChild(buttonContainer);
+
+            // customOverlay.setContent(contentEl);
+
+            // customOverlay.setMap(this.map);
         },
 
         updateHousesMap() {
@@ -190,4 +215,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#map {
+    width: 90%;
+    height: 500px;
+}
+</style>

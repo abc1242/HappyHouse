@@ -6,6 +6,7 @@ import {
   favArea,
   favList,
   deleteFav,
+  favTopList,
 } from "@/api/house.js";
 
 import router from "../../router";
@@ -19,6 +20,7 @@ const houseStore = {
     houses: [],
     house: null,
     favs: [],
+    topfavs: [],
   },
 
   getters: {},
@@ -66,6 +68,10 @@ const houseStore = {
     SET_FAV_LIST: (state, favs) => {
       state.favs = favs;
     },
+    SET_TOP_FAV_LIST: (state, topfavs) => {
+      console.log(topfavs);
+      state.topfavs = topfavs;
+    }
   },
 
   actions: {
@@ -161,6 +167,17 @@ const houseStore = {
         () => {
           alert("선택한 관심지역 삭제 되었습니다");
           router.go(); // 새로고침
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // TOP 5 즐겨찾기 리스트정보 반환
+    getTopFavList: ({ commit }) => {
+      favTopList(
+        ({ data }) => {
+          commit("SET_TOP_FAV_LIST", data);
         },
         (error) => {
           console.log(error);

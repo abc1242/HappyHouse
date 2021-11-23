@@ -46,10 +46,13 @@
                     @change="searchHouse"
                 ></b-form-select>
             </b-col>
-            <b-col cols="1" class="sm-1">
-                <p class="h3 mb-2">
+            <b-col cols="2" class="sm-1">
+                <!-- <p class="h3 mb-2">
                     <b-icon icon="star" @click="setFavorite"></b-icon>
-                </p>
+                </p> -->
+                <b-button variant="outline-primary" @click="setFavorite"
+                    >관심지역 추가</b-button
+                >
             </b-col>
         </b-row>
     </b-container>

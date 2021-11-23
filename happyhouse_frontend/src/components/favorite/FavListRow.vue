@@ -13,7 +13,7 @@
             {{ fav.sidoName }} {{ fav.gugunName }} {{ fav.dongName }}
         </b-col>
         <b-col cols="2" class="text-center align-self-center">
-            <b-button variant="outline-primary" @click="reqDelFav()"
+            <b-button variant="outline-danger" @click="reqDelFav"
                 >삭제</b-button
             >
         </b-col>

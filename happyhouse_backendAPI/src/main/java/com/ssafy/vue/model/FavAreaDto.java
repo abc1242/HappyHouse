@@ -21,10 +21,12 @@ public class FavAreaDto {
 	private String aptCode; // 아파트 코드
 	@ApiModelProperty(value = "아파트 이름")
 	private String aptName; // 아파트 이름
+	@ApiModelProperty(value = "등록 갯수")
+	private String favCnt; // 등록 갯수
 	
 	public FavAreaDto(){	
 	}
-
+	
 	@Override
 	public String toString() {
 		return "FavAreaDto [sidoCode=" + sidoCode + ", sidoName=" + sidoName + ", gugunCode=" + gugunCode
@@ -94,5 +96,13 @@ public class FavAreaDto {
 
 	public void setAptName(String aptName) {
 		this.aptName = aptName;
+	}
+	
+	public String getFavCnt() {
+		return favCnt;
+	}
+
+	public void setFavCnt(String favCnt) {
+		this.favCnt = favCnt;
 	}
 }

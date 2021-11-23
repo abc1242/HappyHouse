@@ -30,4 +30,8 @@ function deleteFav(id, dong, success, fail) {
   api.delete(`/house/fav/${id}/${dong}`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, houseList, favArea, favList, deleteFav };
+function favTopList(success, fail) {
+  api.get(`/house/topfav`).then(success).catch(fail);
+}
+
+export { sidoList, gugunList, dongList, houseList, favArea, favList, deleteFav, favTopList };
