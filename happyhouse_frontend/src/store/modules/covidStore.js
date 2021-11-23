@@ -7,6 +7,7 @@ const covidStore = {
     guguns: [{ value: null, text: "선택하세요" }],
     covids: [],
     covid: null,
+    sigu: [],
   },
 
   getters: {},
@@ -31,7 +32,7 @@ const covidStore = {
     },
 
     SET_COVID_LIST(state, covids) {
-      state.covids = covids.data;
+      state.covids = covids;
     },
     SET_DETAIL_COVID(state, covid) {
       state.covid = covid;
@@ -65,7 +66,7 @@ const covidStore = {
         }
       );
     },
-    getCovidList({ commit }) {
+    getCovidList({ commit }, sigu) {
       // const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
       const SERVICE_KEY =
         "Jfb0zFJEijAwqjhxpvJmOVNjDUEFJDD%2B2pzJfC3eTAKDEBMeNFjINHH%2FInHlvk3YRvX2mmft6pjDMhKnf3gxHg%3D%3D";
@@ -75,13 +76,29 @@ const covidStore = {
       const params = {
         serviceKey: decodeURIComponent(SERVICE_KEY),
       };
+
+      var seleceted = [];
       http
         .get(SERVICE_URL, { params })
         .then((response) => {
           // console.log(commit);
-          // console.log(11111111);
+          // console.log(sigu);
           // console.log(response.data.data);
-          commit("SET_COVID_LIST", response.data);
+
+          if (sigu == "") {
+            commit("SET_COVID_LIST", response.data.data);
+          } else {
+            response.data.data.forEach((element) => {
+              // console.log(element.sido);
+              // console.log(element.sigungu);
+              if (element.sido == sigu[0] && element.sigungu == sigu[1]) {
+                // console.log(element);
+                seleceted.push(element);
+                console.log(seleceted);
+                commit("SET_COVID_LIST", seleceted);
+              }
+            });
+          }
         })
         .catch((error) => {
           console.log(error);

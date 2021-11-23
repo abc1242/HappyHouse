@@ -51,7 +51,9 @@ export default {
     return {
       sidoCode: null,
       gugunCode: null,
-      sidoName: null,
+      siName: "",
+      guName: "",
+      sigu: [],
     };
   },
   computed: {
@@ -60,7 +62,7 @@ export default {
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
-    this.getCovidList();
+    this.getCovidList(this.siName, this.guName);
 
     //화면 열면서 코로나data 받아오기
   },
@@ -74,7 +76,28 @@ export default {
 
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
-    searchCovid() {},
+    searchCovid() {
+      // console.log(this.sidoCode);
+      // console.log(this.sidos[0].text);
+
+      this.sidos.forEach((element) => {
+        if (this.sidoCode == element.value) {
+          this.siName = element.text;
+        }
+      });
+      this.guguns.forEach((element) => {
+        if (this.gugunCode == element.value) {
+          this.guName = element.text;
+        }
+      });
+      this.sigu[0] = this.siName;
+      this.sigu[1] = this.guName;
+
+      // sigu = [this.siName, this.guName];
+      // console.log(this.sigu[0]);
+      // console.log(this.sigu[1]);
+      this.getCovidList(this.sigu);
+    },
   },
 };
 </script>

@@ -64,8 +64,6 @@ export default {
       param,
       (response) => {
         this.articles = response.data;
-
-        console.log(response.data);
       },
 
       (error) => {
