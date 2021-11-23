@@ -28,12 +28,16 @@ export default {
   },
   computed: {
     ...mapState(dealStore, ["deals"]),
-    // houses() {
-    //   return this.$store.state.houses;
-    // },
+  },
+  watch: {
+    deals() {
+      if (this.deals.length > 0) {
+        this.detailDeal(this.deals[0]);
+      }
+    },
   },
   methods: {
-    ...mapActions(dealStore, ["initDeal"]),
+    ...mapActions(dealStore, ["initDeal", "detailDeal"]),
   },
   filters: {
     price(value) {

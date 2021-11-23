@@ -45,4 +45,21 @@
 		order by hi.aptCode desc
 	</select>
 	
+	<insert id="setFavArea" parameterType="map">
+		insert into favoritearea (userid, dongCode, regtime)
+		values (#{userid}, #{dongcode}, now())
+	</insert>
+	
+	<select id="getFavArea" parameterType="string" resultType="FavAreaDto">
+		select si.sidoName, gu.gugunName, do.dongName, f.dongCode, f.userid, f.regtime
+		  from favoritearea f
+		  left join sidocode si
+		  on left(f.dongCode, 2) = left(si.sidocode,2)
+		  left join guguncode gu
+		  on left(f.dongcode,5) = left(gu.guguncode,5)
+		  left join dongcode do
+		  on left(f.dongcode,10) = left(do.dongcode,10)
+		  where f.userid = #{userid};
+	</select>
+	
 </mapper>

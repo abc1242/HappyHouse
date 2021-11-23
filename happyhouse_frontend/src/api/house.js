@@ -18,4 +18,12 @@ function houseList(params, success, fail) {
   api.get(`/house/apt`, { params: params }).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, houseList };
+function favArea(id, dong, success, fail) {
+  api.post(`/house/fav/${id}/${dong}`).then(success).catch(fail);
+}
+
+function favList(id, success, fail) {
+  api.get(`/house/fav/${id}`).then(success).catch(fail);
+}
+
+export { sidoList, gugunList, dongList, houseList, favArea, favList };

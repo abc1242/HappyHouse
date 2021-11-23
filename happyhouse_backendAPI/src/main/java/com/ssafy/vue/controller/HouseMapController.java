@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.vue.model.SidoGugunDongDto;
 import com.ssafy.vue.model.service.HouseMapService;
+import com.ssafy.vue.model.BoardDto;
 import com.ssafy.vue.model.DealInfoDto;
+import com.ssafy.vue.model.FavAreaDto;
 import com.ssafy.vue.model.HouseInfoDto;
 
 import io.swagger.annotations.Api;
@@ -64,5 +69,22 @@ public class HouseMapController {
 	public ResponseEntity<List<DealInfoDto>> deal(@RequestParam("dong") String dong, @RequestParam("apt") String apt) throws Exception {
 		logger.info("deal - 호출");
 		return new ResponseEntity<List<DealInfoDto>>(haHouseMapService.getHouseDeal(dong, apt), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "관심지역 정보", notes = "해당되는 관심지역을 설정한다.", response = String.class)
+	@PostMapping("/fav/{id}/{dong}")
+	public String setFavArea(@PathVariable("id") @ApiParam(value = "회원아이디", required = true) String id,
+			@PathVariable("dong") @ApiParam(value = "동 코드", required = true) String dong) throws Exception {
+		logger.info("post fav - 호출");
+		logger.info("id : " + id + " dong : " + dong);
+		haHouseMapService.setFavArea(id, dong);
+		return "";
+	}
+	
+	@ApiOperation(value = "관심지역 정보", notes = "해당되는 관심지역을 반환한다.", response = List.class)
+	@GetMapping("/fav/{id}")
+	public ResponseEntity<List<FavAreaDto>> fav(@PathVariable("id") @ApiParam(value = "회원아이디", required = true) String id) throws Exception {
+		logger.info("get fav - 호출");
+		return new ResponseEntity<List<FavAreaDto>>(haHouseMapService.getFavArea(id), HttpStatus.OK);
 	}
 }

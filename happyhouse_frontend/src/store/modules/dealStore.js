@@ -10,7 +10,6 @@ const dealStore = {
   getters: {},
   mutations: {
     SET_DEAL_LIST: (state, deals) => {
-      console.log(deals);
       state.deals = deals;
     },
     SET_HOUSE: (state, house) => {
@@ -33,7 +32,6 @@ const dealStore = {
         dong: house.dongCode,
         apt: house.aptName,
       };
-      console.log(params);
       dealList(
         params,
         ({ data }) => {

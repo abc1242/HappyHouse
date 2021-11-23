@@ -16,6 +16,10 @@ export default {
     ...mapState(houseStore, ["houses"]),
   },
 
+  created() {
+    this.updateHousesMap();
+  },
+
   // vuex houses 변수가 변하면 맵 업데이트!
   watch: {
     houses() {
@@ -119,11 +123,6 @@ export default {
     },
 
     updateHousesMap() {
-      // if (this.infowindow && this.infowindow.getMap()) {
-      //     //이미 생성한 인포윈도우가 있기 때문에 지도 중심좌표를 인포윈도우 좌표로 이동시킨다.
-      //     this.map.setCenter(this.infowindow.getPosition());
-      //     return;
-      // }
       if (this.houses.length == 0) {
         return;
       }

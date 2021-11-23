@@ -1,4 +1,11 @@
-import { sidoList, gugunList, dongList, houseList } from "@/api/house.js";
+import {
+  sidoList,
+  gugunList,
+  dongList,
+  houseList,
+  favArea,
+  favList,
+} from "@/api/house.js";
 
 const houseStore = {
   namespaced: true,
@@ -8,6 +15,7 @@ const houseStore = {
     dongs: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
+    favs: [],
   },
 
   getters: {},
@@ -37,12 +45,23 @@ const houseStore = {
     CLEAR_DONG_LIST: (state) => {
       state.dongs = [{ value: null, text: "선택하세요" }];
     },
+    CLEAR_HOUSES_LIST: (state) => {
+      state.houses = [];
+      state.house = null;
+    },
     SET_HOUSE_LIST: (state, houses) => {
       //   console.log(houses);
       state.houses = houses;
     },
     SET_DETAIL_HOUSE: (state, house) => {
       state.house = house;
+    },
+    SET_FAV: (state, res) => {
+      console.log(state.house);
+      console.log(res);
+    },
+    SET_FAV_LIST: (state, favs) => {
+      state.favs = favs;
     },
   },
 
@@ -87,6 +106,7 @@ const houseStore = {
         }
       );
     },
+    // 하우스 리스트정보 반환
     getHouseList: ({ commit }, dongCode) => {
       const params = {
         dong: dongCode,
@@ -104,6 +124,32 @@ const houseStore = {
     detailHouse: ({ commit }, house) => {
       // 나중에 house.일련번호를 이용하여 API 호출
       commit("SET_DETAIL_HOUSE", house);
+    },
+    setFavArea: (commit, favData) => {
+      console.log(commit);
+      favArea(
+        favData.id,
+        favData.dong,
+        () => {
+          alert("관심지역 등록 되었습니다");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // 즐겨찾기 리스트정보 반환
+    getFavList: ({ commit }, userId) => {
+      console.log(userId);
+      favList(
+        userId,
+        ({ data }) => {
+          commit("SET_FAV_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };

@@ -25,6 +25,8 @@ import House from "@/views/House.vue";
 
 import Deal from "@/views/Deal.vue";
 
+import Favorite from "@/views/Favorite.vue";
+
 import store from "@/store/index.js";
 
 Vue.use(VueRouter);
@@ -148,6 +150,12 @@ const routes = [
     path: "/deal/:house",
     name: "Deal",
     component: Deal,
+  },
+  {
+    path: "/fav",
+    name: "Favorite",
+    beforeEnter: onlyAuthUser,
+    component: Favorite,
   },
   {
     path: "*",
