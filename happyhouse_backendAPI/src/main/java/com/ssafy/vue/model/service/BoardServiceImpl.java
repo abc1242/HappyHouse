@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.util.PageNavigation;
 import com.ssafy.vue.model.BoardDto;
 import com.ssafy.vue.model.BoardParameterDto;
+import com.ssafy.vue.model.CommentDto;
 import com.ssafy.vue.model.mapper.BoardMapper;
 
 @Service
@@ -24,6 +25,14 @@ public class BoardServiceImpl implements BoardService {
 			throw new Exception();
 		}
 		return sqlSession.getMapper(BoardMapper.class).writeArticle(boardDto) == 1;
+	}
+	
+	@Override
+	public boolean writeComment(CommentDto commentDto) throws Exception {
+		if(commentDto.getContent() == null) {
+			throw new Exception();
+		}
+		return sqlSession.getMapper(BoardMapper.class).writeComment(commentDto) == 1;
 	}
 
 	@Override
@@ -55,6 +64,10 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDto getArticle(int articleno) throws Exception {
 		return sqlSession.getMapper(BoardMapper.class).getArticle(articleno);
 	}
+	@Override
+	public List<CommentDto> getComment(int articleno) throws Exception {
+		return sqlSession.getMapper(BoardMapper.class).getComment(articleno);
+	}
 	
 	@Override
 	public void updateHit(int articleno) throws Exception {
@@ -72,5 +85,12 @@ public class BoardServiceImpl implements BoardService {
 	public boolean deleteArticle(int articleno) throws Exception {
 		sqlSession.getMapper(BoardMapper.class).deleteMemo(articleno);
 		return sqlSession.getMapper(BoardMapper.class).deleteArticle(articleno) == 1;
+	}
+	
+	@Override
+	@Transactional
+	public boolean deleteComment(int commentno) throws Exception {
+		sqlSession.getMapper(BoardMapper.class).deleteMemo(commentno);
+		return sqlSession.getMapper(BoardMapper.class).deleteComment(commentno) == 1;
 	}
 }
