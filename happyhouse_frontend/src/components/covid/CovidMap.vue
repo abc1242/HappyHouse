@@ -6,7 +6,7 @@
 
 <script>
 import { mapState } from "vuex";
-
+import EventBus from "@/api/event-bus.js";
 const covidStore = "covidStore";
 
 export default {
@@ -45,6 +45,9 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=bb0272b6a279f08160c1221ab148b5d8";
       document.head.appendChild(script);
     }
+    EventBus.$on("callCovidInfo", (covid) => {
+      this.displayInfowindow(covid);
+    });
   },
   methods: {
     initMap() {
@@ -80,50 +83,130 @@ export default {
       return marker;
     },
 
-    displayInfowindow(marker, covid) {
-      var content = `
-                    <div class="overlaybox">
-                        <div class="boxtitle">${covid.centerName}</div>
-                        <div class="close" onclick="closeOverlay()" title="닫기"></div>
-                        <ul>
-                            <li class="up">
-                                <span class="title">시설명</span>
-                                <span class="count">시설명${covid.facilityName}</span>
-                            </li>
-                            <li>
-                                <span class="title>주소</span>
-                                <span class="count">${covid.address}</span>
-                            </li>
-                            <li>
-                                <span class="title">전화번호</span>
-                                <span class="count">${covid.phoneNumber}</span>
-                            </li>
-                        </ul>
-                    </div>
-                `;
+    displayInfowindow(covid) {
+      // var content = `
+      //               <div class="overlaybox">
+      //                   <div class="boxtitle">${covid.centerName}</div>
+      //                   <div class="close" onclick="closeOverlay()" title="닫기"></div>
+      //                   <ul>
+      //                       <li class="up">
+      //                           <span class="title">시설명</span>
+      //                           <span class="count">시설명${covid.facilityName}</span>
+      //                       </li>
+      //                       <li>
+      //                           <span class="title>주소</span>
+      //                           <span class="count">${covid.address}</span>
+      //                       </li>
+      //                       <li>
+      //                           <span class="title">전화번호</span>
+      //                           <span class="count">${covid.phoneNumber}</span>
+      //                       </li>
+      //                   </ul>
+      //               </div>
+      //           `;
 
-      console.log(covid);
-
+      // console.log(covid);
+      var covidPosition = new kakao.maps.LatLng(covid.lat, covid.lng);
       var position = new kakao.maps.LatLng(
-        marker.getPosition().getLat() + 0.00033,
-        marker.getPosition().getLng() - 0.00003
+        covidPosition.getLat() + 0.00033,
+        covidPosition.getLng() - 0.00003
       );
+
       var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
-        content: content,
+
         xAnchor: 0.3,
         yAnchor: 0.91,
       });
+      this.map.setCenter(position);
 
+      var contentEl = document.createElement("div");
+      contentEl.className = "wrap1";
+
+      var infoEl = document.createElement("div");
+      infoEl.className = "info";
+
+      var titleEl = document.createElement("div");
+      titleEl.className = "title";
+      titleEl.appendChild(document.createTextNode(covid.centerName));
+
+      infoEl.appendChild(titleEl);
+
+      var bodyEl = document.createElement("div");
+      bodyEl.className = "body";
+
+      var imgDivEl = document.createElement("div");
+      imgDivEl.className = "img";
+
+      var imgEl = document.createElement("img");
+      imgEl.setAttribute(
+        "src",
+        //"https://picsum.photos/250/250/?image=58"
+        "https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800"
+      );
+      imgEl.setAttribute("width", "73");
+      imgEl.setAttribute("width", "70");
+
+      imgDivEl.appendChild(imgEl);
+
+      bodyEl.appendChild(imgDivEl);
+
+      var descEl = document.createElement("div");
+      descEl.className = "desc";
+
+      var ellipsisEl = document.createElement("div");
+      ellipsisEl.className = "ellipsis";
+      let ellipsis = "시설명 : " + covid.facilityName;
+      ellipsisEl.appendChild(document.createTextNode(ellipsis));
+
+      var addressEL = document.createElement("div");
+      addressEL.className = "address";
+      let address = "주소 : " + covid.address;
+      addressEL.appendChild(document.createTextNode(address));
+
+      var phoneEL = document.createElement("div");
+      phoneEL.className = "address";
+      let phone = "전화번호 : " + covid.phoneNumber;
+      phoneEL.appendChild(document.createTextNode(phone));
+
+      var buttonContainer = document.createElement("div");
+      buttonContainer.className = "popup-buttons";
+
+      var callBtn = document.createElement("button");
+      callBtn.className = "popup-button";
+      callBtn.appendChild(document.createTextNode("전화"));
+
+      callBtn.onclick = function () {
+        // location.href = "https://www.naver.com";
+        location.href = "tel:" + covid.phoneNumber;
+      };
+
+      //  = function () {
+      //   location.href = "www.naver.com";
+      //   console.log(covid.phoneNumber);
+      // };
+      var closeBtn = document.createElement("button");
+      closeBtn.className = "popup-button";
+      closeBtn.appendChild(document.createTextNode("닫기"));
+      closeBtn.onclick = function () {
+        customOverlay.setMap(null);
+      };
+
+      buttonContainer.appendChild(callBtn);
+      buttonContainer.appendChild(closeBtn);
+
+      descEl.appendChild(ellipsisEl);
+      descEl.appendChild(addressEL);
+      descEl.appendChild(phoneEL);
+      descEl.appendChild(buttonContainer);
+      bodyEl.appendChild(descEl);
+      infoEl.appendChild(bodyEl);
+
+      contentEl.appendChild(infoEl);
+
+      customOverlay.setContent(contentEl);
       customOverlay.setMap(this.map);
 
-      function closeOverlay() {
-        customOverlay.setMap(null);
-      }
-      var a = 1;
-      if (a == 2) {
-        console.log(closeOverlay());
-      }
       // console.log(house);
 
       // var contentEl = document.createElement("div");
@@ -179,19 +262,12 @@ export default {
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function (marker, map, place, displayInfowindow) {
+        (function (marker, covid, displayInfowindow) {
           kakao.maps.event.addListener(marker, "click", function () {
-            displayInfowindow(marker, place);
-          });
-
-          kakao.maps.event.addListener(map, "click", function () {
-            //console.log("asdf");
-            // console.log(customOverlay);
-            // customOverlay.setMap(null);
+            displayInfowindow(covid);
           });
         })(
           marker,
-          this.map,
 
           this.covids[i],
           this.displayInfowindow
@@ -231,8 +307,31 @@ export default {
   width: 90%;
   height: 500px;
 }
-
-#wrap {
-  background-color: red;
+.wrap1 {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 288px;
+  height: 150px;
+  margin-left: -144px;
+  text-align: left;
+  overflow: hidden;
+  font-size: 12px;
+  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
+  line-height: 1.5;
+}
+.wrap1 .info {
+  width: 286px;
+  height: 140px;
+  border-radius: 5px;
+  border-bottom: 2px solid #ccc;
+  border-right: 1px solid #ccc;
+  overflow: hidden;
+  background: #fff;
+}
+.info .body {
+  position: relative;
+  overflow: hidden;
+  height: 130px;
 }
 </style>

@@ -74,75 +74,75 @@ const houseStore = "houseStore";
 const memberStore = "memberStore";
 
 export default {
-    name: "HouseSearchBar",
-    data() {
-        return {
-            sidoCode: null,
-            gugunCode: null,
-            dongCode: null,
-        };
-    },
-    computed: {
-        ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
-        ...mapState(memberStore, ["userInfo"]),
-    },
-    created() {
-        this.CLEAR_HOUSES_LIST();
-        this.CLEAR_SIDO_LIST();
-        this.getSido();
+  name: "HouseSearchBar",
+  data() {
+    return {
+      sidoCode: null,
+      gugunCode: null,
+      dongCode: null,
+    };
+  },
+  computed: {
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  created() {
+    this.CLEAR_HOUSES_LIST();
+    this.CLEAR_SIDO_LIST();
+    this.getSido();
 
-        let dongCode = this.$route.params.dongCode;
-        if (dongCode) this.getHouseList(dongCode);
+    let dongCode = this.$route.params.dongCode;
+    if (dongCode) this.getHouseList(dongCode);
+  },
+  methods: {
+    ...mapActions(houseStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+      "setFavArea",
+    ]),
+    ...mapMutations(houseStore, [
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_DONG_LIST",
+      "CLEAR_HOUSES_LIST",
+    ]),
+
+    setFavorite() {
+      if (this.userInfo == null) {
+        alert("로그인 이후에 가능합니다.");
+      } else {
+        if (this.dongCode == null) {
+          alert("동 선택한 이후에 가능합니다.");
+        } else {
+          let favData = {
+            id: this.userInfo.userid,
+            dong: this.dongCode,
+          };
+          this.setFavArea(favData);
+        }
+      }
     },
-    methods: {
-        ...mapActions(houseStore, [
-            "getSido",
-            "getGugun",
-            "getDong",
-            "getHouseList",
-            "setFavArea",
-        ]),
-        ...mapMutations(houseStore, [
-            "CLEAR_SIDO_LIST",
-            "CLEAR_GUGUN_LIST",
-            "CLEAR_DONG_LIST",
-            "CLEAR_HOUSES_LIST",
-        ]),
 
-        setFavorite() {
-            if (this.userInfo == null) {
-                alert("로그인 이후에 가능합니다.");
-            } else {
-                if (this.dongCode == null) {
-                    alert("동 선택한 이후에 가능합니다.");
-                } else {
-                    let favData = {
-                        id: this.userInfo.userid,
-                        dong: this.dongCode,
-                    };
-                    this.setFavArea(favData);
-                }
-            }
-        },
-
-        gugunList() {
-            this.CLEAR_GUGUN_LIST();
-            this.gugunCode = null;
-            this.CLEAR_DONG_LIST();
-            this.dongCode = null;
-            if (this.sidoCode) this.getGugun(this.sidoCode);
-        },
-        dongList() {
-            //console.log(this.gugunCode);
-
-            this.CLEAR_DONG_LIST();
-            this.dongCode = null;
-            if (this.gugunCode) this.getDong(this.gugunCode);
-        },
-        searchHouse() {
-            if (this.dongCode) this.getHouseList(this.dongCode);
-        },
+    gugunList() {
+      this.CLEAR_GUGUN_LIST();
+      this.gugunCode = null;
+      this.CLEAR_DONG_LIST();
+      this.dongCode = null;
+      if (this.sidoCode) this.getGugun(this.sidoCode);
     },
+    dongList() {
+      //console.log(this.gugunCode);
+
+      this.CLEAR_DONG_LIST();
+      this.dongCode = null;
+      if (this.gugunCode) this.getDong(this.gugunCode);
+    },
+    searchHouse() {
+      if (this.dongCode) this.getHouseList(this.dongCode);
+    },
+  },
 };
 </script>
 

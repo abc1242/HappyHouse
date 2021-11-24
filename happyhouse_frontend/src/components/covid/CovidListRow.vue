@@ -1,7 +1,7 @@
 <template>
   <b-row
     class="m-2"
-    @click="selectCovid"
+    @click="callCovidInfo"
     @mouseover="colorChange(true)"
     @mouseout="colorChange(false)"
     :class="{ 'mouse-over-bgcolor': isColor }"
@@ -19,7 +19,7 @@
 
 <script>
 import { mapActions } from "vuex";
-
+import EventBus from "@/api/event-bus.js";
 const covidStore = "covidStore";
 
 export default {
@@ -41,8 +41,9 @@ export default {
     colorChange(flag) {
       this.isColor = flag;
     },
-    selectCovid() {
-      this.detailCovid(this.covid);
+    callCovidInfo() {
+      // this.detailCovid(this.covid);
+      EventBus.$emit("callCovidInfo", this.covid);
     },
   },
 };
