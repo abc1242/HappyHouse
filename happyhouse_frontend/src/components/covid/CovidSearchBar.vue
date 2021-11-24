@@ -53,22 +53,27 @@ export default {
       gugunCode: null,
       siName: "",
       guName: "",
-      sigu: [],
     };
   },
   computed: {
-    ...mapState(covidStore, ["sidos", "guguns"]),
+    ...mapState(covidStore, ["sidos", "guguns", "sigu", "covids"]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
+    this.CLEAR_COVID_LIST();
     this.getSido();
-    this.getCovidList(this.siName, this.guName);
+    // this.getCovidList(this.siName, this.guName);
 
     //화면 열면서 코로나data 받아오기
   },
   methods: {
     ...mapActions(covidStore, ["getSido", "getGugun", "getCovidList"]),
-    ...mapMutations(covidStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
+    ...mapMutations(covidStore, [
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_COVID_LIST",
+      "SET_COVID_LIST",
+    ]),
 
     gugunList() {
       this.CLEAR_GUGUN_LIST();
@@ -96,7 +101,7 @@ export default {
       // sigu = [this.siName, this.guName];
       // console.log(this.sigu[0]);
       // console.log(this.sigu[1]);
-      this.getCovidList(this.sigu);
+      this.SET_COVID_LIST(this.covids, this.getCovidList(this.sigu));
     },
   },
 };
