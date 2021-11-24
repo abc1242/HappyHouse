@@ -34,4 +34,13 @@ function favTopList(success, fail) {
   api.get(`/house/topfav`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, houseList, favArea, favList, deleteFav, favTopList };
+export {
+  sidoList,
+  gugunList,
+  dongList,
+  houseList,
+  favArea,
+  favList,
+  deleteFav,
+  favTopList,
+};

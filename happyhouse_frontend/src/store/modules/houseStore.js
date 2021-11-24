@@ -71,7 +71,7 @@ const houseStore = {
     SET_TOP_FAV_LIST: (state, topfavs) => {
       console.log(topfavs);
       state.topfavs = topfavs;
-    }
+    },
   },
 
   actions: {

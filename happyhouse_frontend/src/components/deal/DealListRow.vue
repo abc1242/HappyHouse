@@ -9,7 +9,7 @@
     <b-col cols="2" class="text-center align-self-center">
       <b-img
         thumbnail
-        src="https://picsum.photos/250/250/?image=58"
+        src="https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800"
         alt="Image 1"
       ></b-img>
     </b-col>

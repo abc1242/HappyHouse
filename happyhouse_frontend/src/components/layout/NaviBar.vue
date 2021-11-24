@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark">
-            <!-- <b-navbar-brand href="#">
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <!-- <b-navbar-brand href="#">
         <router-link to="/">
           <img
             src="@/assets/ssafy_logo.png"
@@ -12,94 +12,85 @@
         </router-link>
       </b-navbar-brand> -->
 
-            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav>
-                <b-navbar-nav>
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'Home' }" class="link"
-                            ><b-icon icon="house" font-scale="1"></b-icon>
-                            HOME</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'House' }" class="link"
-                            ><b-icon icon="house-fill" font-scale="1"></b-icon>
-                            아파트정보</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'Favorite' }" class="link"
-                            ><b-icon
-                                icon="bookmark-star-fill"
-                                font-scale="1"
-                            ></b-icon>
-                            관심지역</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'Notice' }" class="link"
-                            ><b-icon icon="journal" font-scale="1"></b-icon>
-                            공지사항</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'Board' }" class="link"
-                            ><b-icon icon="journal" font-scale="1"></b-icon>
-                            게시판</router-link
-                        ></b-nav-item
-                    >
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Home' }" class="link"
+              ><b-icon icon="house" font-scale="1"></b-icon> HOME</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'House' }" class="link"
+              ><b-icon icon="house-fill" font-scale="1"></b-icon>
+              아파트정보</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Favorite' }" class="link"
+              ><b-icon icon="bookmark-star-fill" font-scale="1"></b-icon>
+              관심지역</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Notice' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              공지사항</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Board' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              게시판</router-link
+            ></b-nav-item
+          >
 
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'Covid' }" class="link"
-                            ><b-icon icon="journal" font-scale="1"></b-icon>
-                            코로나예방접종센터</router-link
-                        ></b-nav-item
-                    >
-                </b-navbar-nav>
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Covid' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              코로나예방접종센터</router-link
+            ></b-nav-item
+          >
+        </b-navbar-nav>
 
-                <b-navbar-nav class="ml-auto" v-if="userInfo">
-                    <b-nav-item class="align-self-center"
-                        ><b-avatar
-                            variant="primary"
-                            v-text="
-                                userInfo
-                                    ? userInfo.userid.charAt(0).toUpperCase()
-                                    : ''
-                            "
-                        ></b-avatar
-                        >{{ userInfo.username }}({{ userInfo.userid }})님
-                        환영합니다.</b-nav-item
-                    >
-                    <b-nav-item class="align-self-center"
-                        ><router-link
-                            :to="{ name: 'MyPage' }"
-                            class="link align-self-center"
-                            >내정보보기</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item
-                        class="link align-self-center"
-                        @click.prevent="onClickLogout"
-                        >로그아웃</b-nav-item
-                    >
-                </b-navbar-nav>
-                <b-navbar-nav class="ml-auto" v-else>
-                    <b-nav-item href="#"
-                        ><router-link :to="{ name: 'SignIn' }" class="link"
-                            ><b-icon icon="key"></b-icon> 로그인</router-link
-                        ></b-nav-item
-                    >
-                    <b-nav-item href="#">
-                        <router-link :to="{ name: 'SignUp' }" class="link"
-                            ><b-icon icon="person-circle"></b-icon>
-                            회원가입</router-link
-                        ></b-nav-item
-                    >
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-    </div>
+        <b-navbar-nav class="ml-auto" v-if="userInfo">
+          <b-nav-item class="align-self-center"
+            ><b-avatar
+              variant="primary"
+              v-text="userInfo ? userInfo.userid.charAt(0).toUpperCase() : ''"
+            ></b-avatar
+            >{{ userInfo.username }}({{ userInfo.userid }})님
+            환영합니다.</b-nav-item
+          >
+          <b-nav-item class="align-self-center"
+            ><router-link
+              :to="{ name: 'MyPage' }"
+              class="link align-self-center"
+              >내정보보기</router-link
+            ></b-nav-item
+          >
+          <b-nav-item
+            class="link align-self-center"
+            @click.prevent="onClickLogout"
+            >로그아웃</b-nav-item
+          >
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto" v-else>
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'SignIn' }" class="link"
+              ><b-icon icon="key"></b-icon> 로그인</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#">
+            <router-link :to="{ name: 'SignUp' }" class="link"
+              ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
+            ></b-nav-item
+          >
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
 </template>
 
 <script>

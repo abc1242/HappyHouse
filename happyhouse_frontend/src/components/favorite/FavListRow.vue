@@ -1,23 +1,17 @@
 <template>
-    <b-row
-        class="m-2"
-        @mouseover="colorChange(true)"
-        @mouseout="colorChange(false)"
-        :class="{ 'mouse-over-bgcolor': isColor }"
-    >
-        <b-col
-            cols="10"
-            class="text-center align-self-center"
-            @click="selectFav"
-        >
-            {{ fav.sidoName }} {{ fav.gugunName }} {{ fav.dongName }}
-        </b-col>
-        <b-col cols="2" class="text-center align-self-center">
-            <b-button variant="outline-danger" @click="reqDelFav"
-                >삭제</b-button
-            >
-        </b-col>
-    </b-row>
+  <b-row
+    class="m-2"
+    @mouseover="colorChange(true)"
+    @mouseout="colorChange(false)"
+    :class="{ 'mouse-over-bgcolor': isColor }"
+  >
+    <b-col cols="10" class="text-center align-self-center" @click="selectFav">
+      {{ fav.sidoName }} {{ fav.gugunName }} {{ fav.dongName }}
+    </b-col>
+    <b-col cols="2" class="text-center align-self-center">
+      <b-button variant="outline-danger" @click="reqDelFav">삭제</b-button>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

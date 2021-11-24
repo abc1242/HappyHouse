@@ -2,22 +2,8 @@
   <b-container v-if="deal" class="bv-example-row">
     <b-row class="mb-2 mt-1">
       <b-col
-        ><b-img :src="require('@/assets/apt.png')" fluid-grow></b-img
+        ><b-img :src="require('@/assets/aptnew.jpg')" fluid-grow></b-img
       ></b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <b-alert show variant="secondary"
-          >일련번호 : {{ deal.aptCode }}</b-alert
-        >
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <b-alert show variant="primary"
-          >아파트 이름 : {{ deal.aptName }}
-        </b-alert>
-      </b-col>
     </b-row>
     <b-row>
       <b-col>
@@ -28,7 +14,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-alert show variant="warning">층수 : {{ deal.floor }}층</b-alert>
+        <b-alert show variant="secondary">층수 : {{ deal.floor }}층</b-alert>
         <!-- 평수 : {{ deal.area }} 평 -->
       </b-col>
     </b-row>

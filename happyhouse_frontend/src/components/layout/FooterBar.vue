@@ -1,73 +1,43 @@
 <template>
-  <b-container class="bv-example-row mt-5 text-center">
-    <b-table :fields="fields" :items="items">
-      <template #cell(name)="data">
-        <!-- `data.value` is the value after formatted by the Formatter -->
-        {{ data.value }}
-      </template>
-    </b-table>
-  </b-container>
+  <footer class="bg-dark mt-5 py-4">
+    <b-container class="container px-5">
+      <div
+        class="
+          row
+          align-items-center
+          justify-content-between
+          flex-column flex-sm-row
+        "
+      >
+        <div class="col-auto">
+          <div class="small m-0 text-white">
+            Copyright © SSAFY 6기 구미 8조 이상현, 박기성
+          </div>
+        </div>
+        <div class="col-auto">
+          <a class="link-light small" href="#!">Privacy</a>
+          <span class="text-white mx-1">·</span>
+          <a class="link-light small" href="#!">Terms</a>
+          <span class="text-white mx-1">·</span>
+          <a class="link-light small" href="#!">Contact</a>
+        </div>
+      </div>
+    </b-container>
+  </footer>
 </template>
 
 <script>
 /* eslint-disable */
 export default {
     name: "FooterBar",
-    data() {
-        return {
-            fields: [
-                {
-                    // A column that needs custom formatting,
-                    // calling formatter 'fullName' in this app
-                    key: "name",
-                    label: "Full Name",
-                    formatter: "fullName",
-                },
-                // A regular column
-                "age",
-                {
-                    // A regular column with custom formatter
-                    key: "sex",
-                    formatter: (value) => {
-                        return value.charAt(0).toUpperCase();
-                    },
-                },
-                {
-                    // A virtual column with custom formatter
-                    key: "birthYear",
-                    label: "Calculated Birth Year",
-                    formatter: (value, key, item) => {
-                        return new Date().getFullYear() - item.age;
-                    },
-                },
-            ],
-            items: [
-                { name: { first: "John", last: "Doe" }, sex: "Male", age: 42 },
-                {
-                    name: { first: "Jane", last: "Doe" },
-                    sex: "Female",
-                    age: 36,
-                },
-                {
-                    name: { first: "Rubin", last: "Kincade" },
-                    sex: "male",
-                    age: 73,
-                },
-                {
-                    name: { first: "Shirley", last: "Partridge" },
-                    sex: "female",
-                    age: 62,
-                },
-            ],
-        };
-    },
-    methods: {
-        fullName(value) {
-            return `${value.first} ${value.last}`;
-        },
-    },
 };
 </script>
 
 <style>
+footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+}
 </style>

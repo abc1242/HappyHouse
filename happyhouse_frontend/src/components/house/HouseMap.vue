@@ -5,7 +5,10 @@
 </template>
 
 <script>
+import router from "@/router";
 import { mapState } from "vuex";
+
+import EventBus from "@/api/event-bus.js";
 
 const houseStore = "houseStore";
 
@@ -45,6 +48,11 @@ export default {
                 "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=bb0272b6a279f08160c1221ab148b5d8";
             document.head.appendChild(script);
         }
+
+        //As an ES6 module
+        EventBus.$on("callDisplayInfowindow", (house) => {
+            this.displayInfowindow(house);
+        });
     },
     methods: {
         initMap() {
@@ -80,71 +88,91 @@ export default {
             return marker;
         },
 
-        displayInfowindow(marker, title, house) {
-            var content = `
-                    <div class="overlaybox">
-                        <div class="boxtitle">${title}</div>
-                        <div class="close" onclick="closeOverlay()" title="닫기"></div>
-                        <ul>
-                            <li class="up">
-                                <span class="title">건축년도</span>
-                                <span class="count">${house.buildYear}</span>
-                            </li>
-                            <li>
-                                <span class="title></span>
-                                <span class="count">${house.sidoName} ${house.gugunName} ${house.dongName} ${house.jibun}</span>
-                            </li>
-                            <li>
-                                <span class="title">최신거래금액</span>
-                                <span class="count">${house.recentPrice}</span>
-                            </li>
-                        </ul>
-                    </div>
-                `;
-
-            console.log(house);
+        displayInfowindow(house) {
+            var housePosition = new kakao.maps.LatLng(house.lat, house.lng);
 
             var position = new kakao.maps.LatLng(
-                marker.getPosition().getLat() + 0.00033,
-                marker.getPosition().getLng() - 0.00003
+                housePosition.getLat() + 0.00003,
+                housePosition.getLng() - 0.00003
             );
+
             var customOverlay = new kakao.maps.CustomOverlay({
                 position: position,
-                content: content,
                 xAnchor: 0.3,
                 yAnchor: 0.91,
             });
 
+            this.map.setCenter(position);
+
+            var contentEl = document.createElement("div");
+            contentEl.className = "wrap";
+
+            var infoEl = document.createElement("div");
+            infoEl.className = "info";
+
+            var titleEl = document.createElement("div");
+            titleEl.className = "title";
+            titleEl.appendChild(document.createTextNode(house.aptName));
+
+            infoEl.appendChild(titleEl);
+
+            var bodyEl = document.createElement("div");
+            bodyEl.className = "body";
+
+            var imgDivEl = document.createElement("div");
+            imgDivEl.className = "img";
+
+            var imgEl = document.createElement("img");
+            imgEl.setAttribute(
+                "src",
+                //"https://picsum.photos/250/250/?image=58"
+                "https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800"
+            );
+            imgEl.setAttribute("width", "73");
+            imgEl.setAttribute("width", "70");
+
+            imgDivEl.appendChild(imgEl);
+
+            bodyEl.appendChild(imgDivEl);
+
+            var descEl = document.createElement("div");
+            descEl.className = "desc";
+
+            var ellipsisEl = document.createElement("div");
+            ellipsisEl.className = "ellipsis";
+            let ellipsis = "최신거래금액 : " + house.recentPrice + " (만원)";
+            ellipsisEl.appendChild(document.createTextNode(ellipsis));
+
+            var buttonContainer = document.createElement("div");
+            buttonContainer.className = "popup-buttons";
+
+            var dealBtn = document.createElement("button");
+            dealBtn.className = "popup-button";
+            dealBtn.appendChild(document.createTextNode("거래내역 보기"));
+            dealBtn.onclick = function () {
+                router.push({ name: "Deal", params: { house: house } });
+            };
+
+            var closeBtn = document.createElement("button");
+            closeBtn.className = "popup-button";
+            closeBtn.appendChild(document.createTextNode("닫기"));
+            closeBtn.onclick = function () {
+                customOverlay.setMap(null);
+            };
+
+            buttonContainer.appendChild(dealBtn);
+            buttonContainer.appendChild(closeBtn);
+
+            descEl.appendChild(ellipsisEl);
+            descEl.appendChild(buttonContainer);
+            bodyEl.appendChild(descEl);
+            infoEl.appendChild(bodyEl);
+
+            contentEl.appendChild(infoEl);
+
+            customOverlay.setContent(contentEl);
+
             customOverlay.setMap(this.map);
-
-            // console.log(house);
-
-            // var contentEl = document.createElement("div");
-            // contentEl.className = "overlaybox";
-
-            // var titleEl = document.createElement("div");
-            // titleEl.className = "boxtitle";
-            // titleEl.appendChild(document.createTextNode(title));
-
-            // contentEl.appendChild(titleEl);
-
-            // var buttonContainer = document.createElement("div");
-            // buttonContainer.className = "popup-buttons";
-
-            // var closeBtn = document.createElement("button");
-            // closeBtn.className = "popup-button";
-            // closeBtn.appendChild(document.createTextNode("취소"));
-            // closeBtn.onclick = function () {
-            //     customOverlay.setMap(null);
-            // };
-
-            // buttonContainer.appendChild(closeBtn);
-
-            // contentEl.appendChild(buttonContainer);
-
-            // customOverlay.setContent(contentEl);
-
-            // customOverlay.setMap(this.map);
         },
 
         updateHousesMap() {
@@ -172,33 +200,11 @@ export default {
                 // 마커와 검색결과 항목에 mouseover 했을때
                 // 해당 장소에 인포윈도우에 장소명을 표시합니다
                 // mouseout 했을 때는 인포윈도우를 닫습니다
-                (function (marker, map, title, code, place, displayInfowindow) {
+                (function (marker, house, displayInfowindow) {
                     kakao.maps.event.addListener(marker, "click", function () {
-                        displayInfowindow(marker, title, place);
-                        console.log(title + " " + code);
+                        displayInfowindow(house);
                     });
-
-                    kakao.maps.event.addListener(map, "click", function () {
-                        //console.log("asdf");
-                        // console.log(customOverlay);
-                        // customOverlay.setMap(null);
-                    });
-                })(
-                    marker,
-                    this.map,
-                    this.houses[i].aptName,
-                    this.houses[i].aptCode,
-                    this.houses[i],
-                    this.displayInfowindow
-                );
-
-                // if (i == 0) {
-                //   this.displayInfowindow(
-                //     marker,
-                //     this.houses[i].aptName,
-                //     this.houses[i]
-                //   );
-                // }
+                })(marker, this.houses[i], this.displayInfowindow);
             }
 
             // 맵 위치를 해당 범위만큼 위치로 변경
@@ -219,5 +225,134 @@ export default {
 #map {
     width: 90%;
     height: 500px;
+}
+
+.wrap {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 288px;
+    height: 132px;
+    margin-left: -144px;
+    text-align: left;
+    overflow: hidden;
+    font-size: 12px;
+    font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
+    line-height: 1.5;
+}
+.wrap * {
+    padding: 0;
+    margin: 0;
+}
+.wrap .info {
+    width: 286px;
+    height: 120px;
+    border-radius: 5px;
+    border-bottom: 2px solid #ccc;
+    border-right: 1px solid #ccc;
+    overflow: hidden;
+    background: #fff;
+}
+.wrap .info:nth-child(1) {
+    border: 0;
+    box-shadow: 0px 1px 2px #888;
+}
+.info .title {
+    padding: 5px 0 0 10px;
+    height: 30px;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-weight: bold;
+}
+.info .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #888;
+    width: 17px;
+    height: 17px;
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
+}
+.info .close:hover {
+    cursor: pointer;
+}
+.info .body {
+    position: relative;
+    overflow: hidden;
+}
+.info .desc {
+    position: relative;
+    margin: 13px 0 0 90px;
+    height: 75px;
+}
+.desc .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.desc .jibun {
+    font-size: 11px;
+    color: #888;
+    margin-top: -2px;
+}
+.info .img {
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    width: 73px;
+    height: 71px;
+    border: 1px solid #ddd;
+    color: #888;
+    overflow: hidden;
+}
+.info:after {
+    content: "";
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: 0;
+    width: 22px;
+    height: 12px;
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+}
+.info .link {
+    color: #5085bb;
+}
+
+.popup-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    background: var(--button-bg-color);
+    color: var(--button-color);
+
+    margin: 5px;
+    margin-left: 0px;
+    padding: 0.5rem 1rem;
+
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+
+    border: none;
+    border-radius: 4px;
+
+    display: inline-block;
+    width: auto;
+
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    cursor: pointer;
+
+    transition: 0.5s;
+
+    --button-color: #ffffff;
+    --button-bg-color: #0d6efd;
+    --button-hover-bg-color: #025ce2;
 }
 </style>
