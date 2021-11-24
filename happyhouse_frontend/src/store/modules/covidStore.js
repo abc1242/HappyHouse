@@ -30,7 +30,10 @@ const covidStore = {
     CLEAR_GUGUN_LIST: (state) => {
       state.guguns = [{ value: null, text: "선택하세요" }];
     },
-
+    CLEAR_COVID_LIST: (state) => {
+      state.covids = [];
+      state.covid = null;
+    },
     SET_COVID_LIST(state, covids) {
       state.covids = covids;
     },
@@ -75,6 +78,7 @@ const covidStore = {
       //   "https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=10&serviceKey=Jfb0zFJEijAwqjhxpvJmOVNjDUEFJDD%2B2pzJfC3eTAKDEBMeNFjINHH%2FInHlvk3YRvX2mmft6pjDMhKnf3gxHg%3D%3D";
       const params = {
         serviceKey: decodeURIComponent(SERVICE_KEY),
+        perPage: 1000,
       };
 
       var seleceted = [];
@@ -94,7 +98,7 @@ const covidStore = {
               if (element.sido == sigu[0] && element.sigungu == sigu[1]) {
                 // console.log(element);
                 seleceted.push(element);
-                console.log(seleceted);
+
                 commit("SET_COVID_LIST", seleceted);
               }
             });
