@@ -100,19 +100,19 @@ import { mapState, mapMutations } from "vuex";
 const memberStore = "memberStore";
 
 export default {
-    name: "NaviBar",
-    computed: {
-        ...mapState(memberStore, ["isLogin", "userInfo"]),
+  name: "NaviBar",
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+  },
+  methods: {
+    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    onClickLogout() {
+      this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
+      if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
-    methods: {
-        ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-        onClickLogout() {
-            this.SET_IS_LOGIN(false);
-            this.SET_USER_INFO(null);
-            sessionStorage.removeItem("access-token");
-            if (this.$route.path != "/") this.$router.push({ name: "Home" });
-        },
-    },
+  },
 };
 </script>
 

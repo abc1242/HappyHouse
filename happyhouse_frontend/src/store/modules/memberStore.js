@@ -9,6 +9,7 @@ const memberStore = {
     isLoginError: false,
     userInfo: null,
   },
+
   getters: {
     checkUserInfo: function (state) {
       return state.userInfo;
@@ -24,6 +25,7 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+      // console.log(state.userInfo.userpwd + "유저인포");
     },
   },
   actions: {

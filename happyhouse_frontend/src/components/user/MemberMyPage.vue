@@ -84,7 +84,11 @@ export default {
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
-    modifymember() {},
+    modifymember() {
+      this.$router.replace({
+        name: "Modify",
+      });
+    },
   },
 };
 </script>

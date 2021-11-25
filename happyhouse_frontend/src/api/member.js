@@ -22,5 +22,8 @@ async function signOut(user, success, fail) {
   await api.post(`/user/leave`, JSON.stringify(user)).then(success).catch(fail);
 }
 // function logout(success, fail)
+async function updateMember(user, success, fail) {
+  await api.put(`/user/update`, JSON.stringify(user)).then(success).catch(fail);
+}
 
-export { login, findById, signUp, signOut };
+export { login, findById, signUp, signOut, updateMember };

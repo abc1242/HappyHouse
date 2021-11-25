@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 const memberStore = "memberStore";
 
@@ -69,11 +69,20 @@ export default {
       },
     };
   },
+  created() {
+    this.logout();
+  },
   computed: {
     ...mapState(memberStore, ["isLogin", "isLoginError"]),
   },
   methods: {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    logout() {
+      this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
+    },
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
