@@ -30,6 +30,12 @@ public class MemberServiceImpl implements MemberService {
 //		validation check
 		sqlSession.getMapper(MemberMapper.class).registerMember(memberDto);
 	}
+	
+	@Override
+	public void updateMember(MemberDto memberDto) throws Exception {
+//		validation check
+		sqlSession.getMapper(MemberMapper.class).updateMember(memberDto);
+	}
 	@Override
 	public void deleteMember(String userId) throws Exception {
 		sqlSession.getMapper(MemberMapper.class).deleteMember(userId);

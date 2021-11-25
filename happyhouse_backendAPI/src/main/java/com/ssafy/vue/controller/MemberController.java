@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,20 @@ public class MemberController {
 		}
 		return "";
 	}
+	
+	@PutMapping("/update")
+	public String update(@RequestBody  MemberDto memberDto) {
+	
+		try {
+			memberService.updateMember(memberDto);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	
 	@PostMapping("/leave")
 	public String leave(@RequestBody  MemberDto memberDto) {
 		try {
