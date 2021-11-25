@@ -59,7 +59,8 @@
 		  on left(f.dongcode,5) = left(gu.guguncode,5)
 		  left join dongcode do
 		  on left(f.dongcode,10) = left(do.dongcode,10)
-		  where f.userid = #{userid};
+		  where f.userid = #{userid}
+		  order by f.regtime desc
 	</select>
 	
 	<delete id="delFavArea" parameterType="map">
@@ -77,6 +78,6 @@
 		  on left(f.dongcode,5) = left(gu.guguncode,5)
 		  left join dongcode do
 		  on left(f.dongcode,10) = left(do.dongcode,10)
-		  group by f.dongcode order by favCnt desc limit 5;
+		  group by f.dongcode order by favCnt desc limit 5
 	</select>
 </mapper>
