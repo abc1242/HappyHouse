@@ -61,10 +61,8 @@
 
 <script>
 import { writeArticle, getArticle, modifyArticle } from "@/api/notice";
-
 import { mapState } from "vuex";
 const memberStore = "memberStore";
-
 export default {
   name: "NoticeWriteForm",
   data() {
@@ -89,6 +87,7 @@ export default {
       getArticle(
         this.$route.params.articleno,
         ({ data }) => {
+          console.log(data);
           // this.article.articleno = data.article.articleno;
           // this.article.userid = data.article.userid;
           // this.article.subject = data.article.subject;

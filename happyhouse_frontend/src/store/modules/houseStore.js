@@ -11,7 +11,8 @@ import {
 
 import router from "../../router";
 
-const imgsUrlArr = ["https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800",
+const imgsUrlArr = [
+  "https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUoRd4Sbp1m5kNLHY-MlCuN4wujcXA3FyJFg&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xatD3S4oqcVaQ11p3GGl3Ub7HX3ESgwvCA&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQcBqxzFKUK06fspceQe1sYHYVYDBY2OK-Ig&usqp=CAU",
@@ -23,7 +24,7 @@ const imgsUrlArr = ["https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxN
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS18xDePDVlwhMmb4aC_mUU5985VSNjPdrEZw&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc0uhJQG_uosDHsB2hJVo9nz8mpPG5WYYsXS5QiWivsxA9Pdis1Z0r4dKB_hLi9DbJXG0&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSub2kTlXedd2uLAJj-xRgmpQhmdIRqdLwu0g&usqp=CAU",
-]
+];
 
 const houseStore = {
   namespaced: true,
@@ -166,9 +167,9 @@ const houseStore = {
       );
     },
     // 즐겨찾기 리스트정보 반환
-    getFavList: ({ commit }, userId) => {
+    getFavList: ({ commit }, param) => {
       favList(
-        userId,
+        param,
         ({ data }) => {
           commit("SET_FAV_LIST", data);
         },

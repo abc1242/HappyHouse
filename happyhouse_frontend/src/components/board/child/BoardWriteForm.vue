@@ -92,7 +92,7 @@ export default {
           // this.article.userid = data.article.userid;
           // this.article.subject = data.article.subject;
           // this.article.content = data.article.content;
-          this.article = data;
+          this.article = data[0];
         },
         (error) => {
           console.log(error);
