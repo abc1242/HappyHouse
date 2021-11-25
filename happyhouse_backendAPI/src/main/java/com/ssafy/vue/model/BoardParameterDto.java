@@ -19,7 +19,7 @@ public class BoardParameterDto {
 	
 	public BoardParameterDto() {
 		pg = 1;
-		spp = 20;
+		spp = 5;
 	}
 
 	public int getPg() {
