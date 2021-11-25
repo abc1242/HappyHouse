@@ -2,8 +2,8 @@
     <b-container class="bv-example-row mt-3 text-center">
         <h3 class="underline-blue mt-3 mb-5">
             <b-icon icon="house-fill"></b-icon> {{ house.sidoName }}
-            {{ house.gugunName }} {{ house.dongName }}
-            {{ house.aptName }} 아파트 거래정보
+            {{ house.gugunName }} {{ house.dongName }} {{ house.aptName }} 주택
+            거래정보
         </h3>
         <!-- <b-row>
             <b-col>
