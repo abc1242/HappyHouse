@@ -33,6 +33,11 @@
             />
           </tbody>
         </b-table-simple>
+        <div>
+          <a href="#" v-for="n in this.totalpage" :key="n" @click="changePg(n)"
+            >{{ n }}
+          </a>
+        </div>
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
@@ -51,29 +56,65 @@ export default {
   data() {
     return {
       articles: [],
+      pg: 1,
+      spp: 5,
+      totalpage: 0,
+      totalcount: 0,
     };
   },
   created() {
-    let param = {
-      pg: 1,
-      spp: 20,
-      key: null,
-      word: null,
-    };
-    listArticle(
-      param,
-      (response) => {
-        this.articles = response.data;
-      },
+    this.getTotalCount();
 
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.getlist(this.pg);
   },
   methods: {
     moveWrite() {
       this.$router.push({ name: "NoticeWrite" });
+    },
+    changePg(n) {
+      this.getlist(n);
+    },
+    getlist(n) {
+      let param = {
+        pg: n,
+        spp: this.spp,
+        key: null,
+        word: null,
+      };
+      listArticle(
+        param,
+        (response) => {
+          this.articles = response.data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    getTotalCount() {
+      let param = {
+        pg: 1,
+        spp: 100,
+        key: null,
+        word: null,
+      };
+      listArticle(
+        param,
+        (response) => {
+          this.totalcount = response.data.length;
+          var temp = this.totalcount % this.spp;
+
+          if (temp == 0) {
+            this.totalpage = parseInt(this.totalcount / this.spp);
+          } else {
+            this.totalpage = parseInt(this.totalcount / this.spp) + 1;
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };

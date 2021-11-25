@@ -47,7 +47,13 @@
           </b-container>
           <hr class="my-4" />
 
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
+          <b-button
+            variant="primary"
+            href="#"
+            class="mr-1"
+            @click="modifymember"
+            >정보수정</b-button
+          >
           <b-button variant="danger" href="#" @click="deletemember"
             >회원탈퇴</b-button
           >
@@ -78,6 +84,7 @@ export default {
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
+    modifymember() {},
   },
 };
 </script>
