@@ -1,17 +1,13 @@
 <template>
     <b-row
-        class="m-2"
+        class="deallist m-2"
         @click="selectDeal"
         @mouseover="colorChange(true)"
         @mouseout="colorChange(false)"
         :class="{ 'mouse-over-bgcolor': isColor }"
     >
         <b-col cols="2" class="text-center align-self-center">
-            <b-img
-                thumbnail
-                src="https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800"
-                alt="Image 1"
-            ></b-img>
+            <b-img thumbnail :src="house.imgsUrl" alt="Image 1"></b-img>
         </b-col>
         <b-col cols="6" class="align-self-center">
             거래금액 : {{ getDealAmountKor(deal.dealAmount) }}원
@@ -26,7 +22,7 @@
 
 <script>
 /* eslint-disable */
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { numToKr } from "vue-number-to-kor";
 
 const dealStore = "dealStore";
@@ -40,6 +36,9 @@ export default {
     },
     props: {
         deal: Object,
+    },
+    computed: {
+        ...mapState(dealStore, ["house"]),
     },
     methods: {
         ...mapActions(dealStore, ["detailDeal"]),
@@ -64,6 +63,9 @@ export default {
 <style scoped>
 .apt {
     width: 50px;
+}
+.deallist {
+    background-color: rgb(201, 220, 226);
 }
 .mouse-over-bgcolor {
     background-color: lightblue;

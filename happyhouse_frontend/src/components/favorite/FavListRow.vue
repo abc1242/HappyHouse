@@ -1,17 +1,23 @@
 <template>
-  <b-row
-    class="m-2"
-    @mouseover="colorChange(true)"
-    @mouseout="colorChange(false)"
-    :class="{ 'mouse-over-bgcolor': isColor }"
-  >
-    <b-col cols="10" class="text-center align-self-center" @click="selectFav">
-      {{ fav.sidoName }} {{ fav.gugunName }} {{ fav.dongName }}
-    </b-col>
-    <b-col cols="2" class="text-center align-self-center">
-      <b-button variant="outline-danger" @click="reqDelFav">삭제</b-button>
-    </b-col>
-  </b-row>
+    <b-row
+        class="favlist m-2"
+        @mouseover="colorChange(true)"
+        @mouseout="colorChange(false)"
+        :class="{ 'mouse-over-bgcolor': isColor }"
+    >
+        <b-col
+            cols="10"
+            class="text-center align-self-center"
+            @click="selectFav"
+        >
+            {{ fav.sidoName }} {{ fav.gugunName }} {{ fav.dongName }}
+        </b-col>
+        <b-col cols="2" class="text-center align-self-center">
+            <b-button class="btnDel" variant="outline-danger" @click="reqDelFav"
+                >삭제</b-button
+            >
+        </b-col>
+    </b-row>
 </template>
 
 <script>
@@ -64,7 +70,13 @@ export default {
 .apt {
     width: 50px;
 }
+.favlist {
+    background-color: rgb(201, 220, 226);
+}
 .mouse-over-bgcolor {
-    background-color: lightblue;
+    background-color: rgb(175, 204, 214);
+}
+.btnDel {
+    margin-top: 17px;
 }
 </style>

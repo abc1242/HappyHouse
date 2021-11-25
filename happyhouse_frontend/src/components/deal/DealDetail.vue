@@ -2,7 +2,7 @@
     <b-container v-if="deal" class="bv-example-row">
         <b-row class="mb-2 mt-1">
             <b-col
-                ><b-img :src="require('@/assets/aptnew.jpg')" fluid-grow></b-img
+                ><b-img class="imgCol" :src="house.imgsUrl" fluid-grow></b-img
             ></b-col>
         </b-row>
         <b-row>
@@ -49,7 +49,7 @@ const dealStore = "dealStore";
 export default {
     name: "DealDetail",
     computed: {
-        ...mapState(dealStore, ["deal"]),
+        ...mapState(dealStore, ["deal", "house"]),
     },
     filters: {
         price(value) {
@@ -68,4 +68,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.imgCol {
+    height: 450px;
+}
+</style>

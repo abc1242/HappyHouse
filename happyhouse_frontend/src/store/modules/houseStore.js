@@ -11,6 +11,20 @@ import {
 
 import router from "../../router";
 
+const imgsUrlArr = ["https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTlfMzIg/MDAxNTgyMTA4MjM5Mjk5.9AyII842EoUtrKfwfuUhN3F1inI-fWmNwZU-Fv_IW0wg.ZsvbUrDQubVKDbeCWnOGGPlMRhA51zDj4Q4GqS3Edn4g.JPEG.coldwell25/SE-3d8640e5-3def-4e83-bbe3-b7938a29c9e5.jpg?type=w800",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUoRd4Sbp1m5kNLHY-MlCuN4wujcXA3FyJFg&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xatD3S4oqcVaQ11p3GGl3Ub7HX3ESgwvCA&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQcBqxzFKUK06fspceQe1sYHYVYDBY2OK-Ig&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTatpL_JztjvStCFhOjLP2_JOxUAWFGe6a5hgWe705RgVzE5_bUdZYhX3WkbgOnR7IrfzI&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeLUGrIg7H88WcKNiuGU-duSkVhxC2ZVyjCw&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9-KeTL3IQFlKgDLW16rKa2wok-q4C8v7JMA&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzqyeMGOu3k46kBuJRfsJOPC9hcVkpgpZGiw&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjgPtHfqvTdag30LQmxFRYSEMVTTFIT9W4EA&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS18xDePDVlwhMmb4aC_mUU5985VSNjPdrEZw&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc0uhJQG_uosDHsB2hJVo9nz8mpPG5WYYsXS5QiWivsxA9Pdis1Z0r4dKB_hLi9DbJXG0&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSub2kTlXedd2uLAJj-xRgmpQhmdIRqdLwu0g&usqp=CAU",
+]
+
 const houseStore = {
   namespaced: true,
   state: {
@@ -55,8 +69,12 @@ const houseStore = {
       state.house = null;
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
       state.houses = houses;
+      // 하우스 객체에 이미지 url 속성을 랜덤으로 넣어줌
+      for (let house of state.houses) {
+        let randNum = Math.floor(Math.random() * imgsUrlArr.length);
+        house.imgsUrl = imgsUrlArr[randNum];
+      }
     },
     SET_DETAIL_HOUSE: (state, house) => {
       state.house = house;
